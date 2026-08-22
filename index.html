@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#103b69">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Panier Malin">
+  <title>Panier Malin</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <button class="brand" data-page="home" aria-label="Retour à l'accueil"><span class="brand-mark">P</span><span>Panier <strong>Malin</strong></span></button>
+      <span class="prototype">Prototype V0.2</span>
+    </header>
+
+    <section id="home" class="page active">
+      <div class="hero"><p class="eyebrow">VOS COURSES, PLUS MALINES</p><h1>Chaque euro compte.</h1><p>Repérez simplement les économies disponibles sur votre panier.</p></div>
+      <div class="summary-card"><p>Panier actuel</p><strong id="home-total" class="big-price">0,00 €</strong><div class="summary-divider"></div><div class="summary-row"><span>Économies potentielles</span><b id="home-savings" class="green">0,00 €</b></div><div class="summary-row"><span>Prix réel estimé</span><b id="home-real">0,00 €</b></div></div>
+      <button class="primary wide" data-page="optimize">Optimiser mon panier <span>→</span></button>
+      <section class="home-tip"><span>✦</span><p><b>Astuce du jour</b><br>Ajoutez vos produits et vos offres pour visualiser votre prix réel.</p></section>
+    </section>
+
+    <section id="basket" class="page">
+      <div class="page-heading"><div><p class="eyebrow">VOTRE LISTE</p><h1>Mon panier</h1></div><button class="round-button" id="add-product" aria-label="Ajouter un produit">＋</button></div>
+      <p class="muted">Total avant optimisation : <b id="basket-total">0,00 €</b></p>
+      <div id="product-list" class="product-list"></div>
+      <button class="secondary wide" id="add-product-bottom">＋ Ajouter un produit</button>
+    </section>
+
+    <section id="optimize" class="page">
+      <div class="page-heading"><div><p class="eyebrow">ANALYSE SIMULÉE</p><h1>Optimiser</h1></div><span class="spark">✦</span></div>
+      <div class="optimization-total"><p>Prix réel estimé</p><strong id="opt-real">0,00 €</strong><span id="opt-saving">0,00 € économisés</span></div>
+      <section class="card"><h2>Votre optimisation</h2><div id="breakdown" class="breakdown"></div></section>
+      <section class="card"><h2>Détail par produit</h2><div id="product-breakdown"></div></section>
+      <section class="card recommendation"><div><span class="recommendation-icon">↗</span><h2>Une meilleure option</h2></div><p>Une autre marque permettrait d’économiser <b class="green">2,05 €</b> supplémentaires.</p><div class="button-pair"><button class="primary recommendation-action">Changer</button><button class="secondary recommendation-action">Garder mon choix</button></div></section>
+      <section class="card"><div class="section-title"><h2>Cashback à réclamer</h2><span class="pill">Simulé</span></div><div id="cashback-list" class="cashback-list"></div></section>
+    </section>
+
+    <section id="wallet" class="page">
+      <div class="page-heading"><div><p class="eyebrow">VOS AVANTAGES</p><h1>Portefeuille</h1></div><button class="round-button" id="add-card" aria-label="Ajouter une carte">＋</button></div>
+      <p class="muted">Cartes cadeaux enregistrées</p><div id="gift-card-list" class="gift-card-list"></div>
+      <button class="secondary wide" id="add-card-bottom">＋ Ajouter une carte cadeau</button>
+    </section>
+
+    <section id="receipt" class="page">
+      <div class="page-heading"><div><p class="eyebrow">HISTORIQUE</p><h1>Mon ticket</h1></div><span class="receipt-icon">▤</span></div>
+      <section class="upload-card"><div class="upload-icon">⌁</div><h2>Ajoutez votre ticket</h2><p>Importez une photo pour préparer une analyse automatique de vos achats.</p><label class="primary upload-label" for="receipt-input">Choisir une image</label><input id="receipt-input" type="file" accept="image/*" hidden><small>OCR & IA : fonctionnalité prévue dans une prochaine version.</small></section>
+      <div id="receipt-preview" class="receipt-preview hidden"><img alt="Aperçu du ticket importé"><p>Ticket prêt pour l’analyse simulée.</p></div>
+      <section class="home-tip"><span>✦</span><p><b>Bientôt disponible</b><br>Nous extrairons vos produits pour enrichir automatiquement votre panier.</p></section>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Navigation principale">
+    <button data-page="home" class="nav-item active"><span>⌂</span>Accueil</button><button data-page="basket" class="nav-item"><span>▣</span>Mon panier</button><button data-page="optimize" class="nav-item"><span>✦</span>Optimiser</button><button data-page="wallet" class="nav-item"><span>▱</span>Portefeuille</button><button data-page="receipt" class="nav-item"><span>▤</span>Mon ticket</button>
+  </nav>
+
+  <dialog id="product-modal"><form method="dialog" id="product-form" class="modal-card"><div class="modal-header"><h2 id="product-modal-title">Ajouter un produit</h2><button class="icon-close" value="cancel" aria-label="Fermer">×</button></div><input type="hidden" id="product-id"><label>Nom du produit<input id="product-name" required placeholder="Ex. Pâtes complètes"></label><div class="two-columns"><label>Prix unitaire (€)<input id="product-price" type="number" min="0" step="0.01" required></label><label>Quantité<input id="product-quantity" type="number" min="1" step="1" required value="1"></label></div><fieldset><legend>Offres simulées</legend><label>Promotion (%)<input id="offer-promo" type="number" min="0" max="100" step="1" value="0"></label><label>Coupon / fidélité (€)<input id="offer-coupon" type="number" min="0" step="0.01" value="0"></label><label>Cashback (€)<input id="offer-cashback" type="number" min="0" step="0.01" value="0"></label><label>Avantage carte cadeau (€)<input id="offer-gift" type="number" min="0" step="0.01" value="0"></label></fieldset><button class="primary wide" value="default">Enregistrer le produit</button></form></dialog>
+  <dialog id="card-modal"><form method="dialog" id="card-form" class="modal-card"><div class="modal-header"><h2>Ajouter une carte</h2><button class="icon-close" value="cancel" aria-label="Fermer">×</button></div><label>Enseigne<input id="card-store" required placeholder="Ex. Carrefour"></label><div class="two-columns"><label>Montant initial (€)<input id="card-amount" type="number" min="0" step="0.01" required></label><label>Solde actuel (€)<input id="card-balance" type="number" min="0" step="0.01" required></label></div><button class="primary wide" value="default">Ajouter la carte</button></form></dialog>
+  <div id="barcode-overlay" class="barcode-overlay hidden"><button id="close-barcode" class="close-barcode" aria-label="Fermer">×</button><p>À présenter en caisse</p><h2 id="barcode-store">Carte cadeau</h2><div class="barcode" aria-label="Code-barres de démonstration"></div><strong id="barcode-balance">0,00 €</strong><small>Code de démonstration — non utilisable</small></div>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "Panier Malin",
+  "short_name": "Panier Malin",
+  "description": "Optimisez simplement vos courses alimentaires.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f9fb",
+  "theme_color": "#103b69"
+}
