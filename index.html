@@ -498,7 +498,18 @@
     padding:0 0 max(10px, env(safe-area-inset-bottom));
     pointer-events:none;
   }
-  .navbar{
+    .menu-servings{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--card);border:1px solid var(--rule);border-radius:18px;padding:14px 16px;margin:14px 0 18px;box-shadow:var(--shadow)}
+  .menu-servings label{font-size:13px;font-weight:800;color:var(--ink)}
+  .menu-servings>div{display:flex;align-items:center;gap:8px}
+  .menu-servings button{width:34px;height:34px;border:0;border-radius:11px;background:var(--green-soft);color:var(--green);font-size:20px;font-weight:800}
+  .menu-servings input{width:42px;border:0;background:transparent;text-align:center;font-size:17px;font-weight:800;font-family:inherit;color:var(--ink)}
+  .recipe-card{background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:16px;margin:0 0 14px;box-shadow:var(--shadow)}
+  .recipe-card h3{margin:0 0 5px;font-size:17px;color:var(--ink)}
+  .recipe-card .recipe-note{margin:0 0 12px;color:var(--muted);font-size:12px}
+  .recipe-ingredients{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+  .recipe-ingredients span{background:var(--green-soft);color:var(--green);border-radius:999px;padding:6px 9px;font-size:11px;font-weight:700}
+  .recipe-card button{width:100%;border:0;border-radius:13px;padding:12px;background:var(--green);color:white;font-size:13px;font-weight:800}
+.navbar{
     width:100%;
     max-width:430px;
     margin:0 10px;
@@ -581,7 +592,14 @@
 </div>
 </section>
 
-    <section class="screen" id="screen-liste">
+        <section class="screen" id="screen-menus">
+      <div class="section-title first">🍽️ Mes menus</div>
+      <div class="section-sub">Choisis le nombre de personnes, sélectionne un plat et ajoute ses ingrédients à ta liste.</div>
+      <div class="menu-servings"><label for="menuServings">Nombre de personnes</label><div><button type="button" onclick="changeMenuServings(-1)" aria-label="Diminuer">−</button><input id="menuServings" type="number" min="1" max="12" value="2" onchange="renderRecipes()"><button type="button" onclick="changeMenuServings(1)" aria-label="Augmenter">+</button></div></div>
+      <div id="recipeList"></div>
+    </section>
+
+<section class="screen" id="screen-liste">
       <div class="section-title first">Liste de courses</div>
       <div class="store-picker">
         <div class="t">1. Choisir le magasin</div>
@@ -655,7 +673,8 @@
   <nav>
     <div class="navbar">
       <div class="nav-btn active" data-screen="accueil" onclick="goTo('accueil')"><div class="ic">🏠</div><div class="lb">ACCUEIL</div></div>
-      <div class="nav-btn" data-screen="liste" onclick="goTo('liste')"><div class="ic">📝</div><div class="lb">LISTE</div></div>
+            <div class="nav-btn" data-screen="menus" onclick="goTo('menus')"><div class="ic">🍽️</div><div class="lb">MENUS</div></div>
+<div class="nav-btn" data-screen="liste" onclick="goTo('liste')"><div class="ic">📝</div><div class="lb">LISTE</div></div>
       <div class="nav-btn" data-screen="fidelite" onclick="goTo('fidelite')"><div class="ic">💳</div><div class="lb">FIDÉLITÉ</div></div>
       <div class="nav-btn" data-screen="cashback" onclick="goTo('cashback')"><div class="ic">🧾</div><div class="lb">CASHBACK</div></div>
       <div class="nav-btn" data-screen="gains" onclick="goTo('gains')"><div class="ic">💰</div><div class="lb">GAINS</div></div>
@@ -718,9 +737,20 @@ function goTo(screen){
   document.getElementById('screen-' + screen).classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.screen === screen));
 }
+const RECIPES = [
+  { id:"pates-tomate", name:"🍝 Pâtes à la tomate", note:"Un plat simple et rapide", ingredients:[{q:200,u:"g",n:"pâtes"},{q:250,u:"g",n:"tomates concassées"},{q:1,u:"",n:"oignon"},{q:1,u:"c. à soupe",n:"huile d’olive"}] },
+  { id:"omelette", name:"🍳 Omelette aux légumes", note:"À accompagner d’une salade", ingredients:[{q:4,u:"",n:"œufs"},{q:1,u:"",n:"courgette"},{q:1,u:"",n:"poivron"},{q:30,u:"g",n:"fromage râpé"}] },
+  { id:"curry-pois-chiches", name:"🍛 Curry de pois chiches", note:"Un plat végétarien gourmand", ingredients:[{q:240,u:"g",n:"pois chiches cuits"},{q:200,u:"ml",n:"lait de coco"},{q:150,u:"g",n:"riz"},{q:1,u:"",n:"oignon"},{q:1,u:"c. à soupe",n:"curry"}] },
+  { id:"quiche", name:"🥧 Quiche aux légumes", note:"Parfaite pour le dîner", ingredients:[{q:1,u:"",n:"pâte brisée"},{q:3,u:"",n:"œufs"},{q:20,u:"cl",n:"crème fraîche"},{q:100,u:"g",n:"fromage râpé"},{q:1,u:"",n:"courgette"}] }
+];
+function getMenuServings(){const input=document.getElementById("menuServings");const n=Math.round(Number(input.value)||2);return Math.max(1,Math.min(12,n));}
+function changeMenuServings(delta){const input=document.getElementById("menuServings");input.value=getMenuServings()+delta;input.value=Math.max(1,Math.min(12,Number(input.value)));renderRecipes();}
+function formatIngredient(q,u,n,servings){const amount=q*servings/2;const qty=Number.isInteger(amount)?String(amount):String(Math.round(amount*10)/10).replace(".",",");return `${qty}${u?" "+u:""} ${n}`;}
+function renderRecipes(){const container=document.getElementById("recipeList");if(!container)return;const servings=getMenuServings();document.getElementById("menuServings").value=servings;container.innerHTML=RECIPES.map(recipe=>{const ingredients=recipe.ingredients.map(i=>formatIngredient(i.q,i.u,i.n,servings));return `<article class="recipe-card"><h3>${escapeHtml(recipe.name)}</h3><p class="recipe-note">${escapeHtml(recipe.note)} · pour ${servings} personne${servings>1?"s":""}</p><div class="recipe-ingredients">${ingredients.map(i=>`<span>${escapeHtml(i)}</span>`).join("")}</div><button type="button" onclick="addRecipeIngredients('${recipe.id}')">Ajouter les ingrédients à ma liste</button></article>`;}).join("");}
+function addRecipeIngredients(recipeId){const recipe=RECIPES.find(r=>r.id===recipeId);if(!recipe)return;const servings=getMenuServings();recipe.ingredients.forEach((ingredient,index)=>{courseItems.push({id:Date.now()+index,label:formatIngredient(ingredient.q,ingredient.u,ingredient.n,servings),done:false});});safeSet("courseItems",JSON.stringify(courseItems));renderCourseItems();goTo("liste");}
 function renderAll(){
   renderChecklist('before', 'listBefore'); renderChecklist('after', 'listAfter');
-  renderProgress(); renderGains(); renderStoreSelect(); renderCourseItems(); renderLoyaltyCards();
+  renderProgress(); renderGains(); renderStoreSelect(); renderCourseItems(); renderLoyaltyCards(); renderRecipes();
 }
 function renderChecklist(section, containerId){
   const container = document.getElementById(containerId);
