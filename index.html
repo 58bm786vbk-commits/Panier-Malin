@@ -173,6 +173,46 @@
   .quick-card .emoji{ font-size:20px; }
   .quick-card .t{ font-weight:700; font-size:13px; }
   .quick-card .d{ font-size:11px; color:var(--muted); }
+  .quick-card{
+    position:relative;
+    min-height:142px;
+    padding:16px;
+    gap:8px;
+    border:1px solid rgba(31,77,58,.10);
+    border-radius:20px;
+    background:linear-gradient(145deg,#fff 0%,#f3f8f2 100%);
+    box-shadow:0 8px 20px rgba(28,27,24,.08);
+    overflow:hidden;
+    transition:transform .18s ease,box-shadow .18s ease;
+  }
+  .quick-card::after{
+    content:"";
+    position:absolute;
+    width:92px;height:92px;
+    top:-34px;right:-28px;
+    border-radius:50%;
+    background:rgba(76,142,98,.12);
+    pointer-events:none;
+  }
+  .quick-card:nth-child(even){
+    background:linear-gradient(145deg,#fff 0%,#fbf5e9 100%);
+  }
+  .quick-card:nth-child(even)::after{background:rgba(220,165,67,.16);}
+  .quick-card .emoji{
+    position:relative;z-index:1;
+    width:44px;height:44px;
+    display:grid;place-items:center;
+    border-radius:14px;
+    background:rgba(76,142,98,.12);
+    font-size:22px;
+  }
+  .quick-card:nth-child(even) .emoji{background:rgba(220,165,67,.16);}
+  .quick-card .t,.quick-card .d{position:relative;z-index:1;}
+  .quick-card .t{font-size:14px;}
+  .quick-card .d{font-size:11.5px;line-height:1.4;}
+  @media (hover:hover){
+    .quick-card:hover{transform:translateY(-3px);box-shadow:0 12px 24px rgba(28,27,24,.12);}
+  }
   .section-title{
     font-family:'Fraunces', serif;
     font-weight:600;
