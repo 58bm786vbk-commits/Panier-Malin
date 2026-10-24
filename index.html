@@ -1059,3 +1059,17 @@ renderFavoriteMenus();
 
 </body>
 
+<script>
+renderFavoriteMenus=function(){
+  var c=document.getElementById('favoriteMenuList');
+  if(!c)return;
+  if(!favoriteMenuIds.length){c.innerHTML='<div class="empty-note">Aucune recette préférée pour le moment. Enregistre une recette avec le bouton ♡.</div>';return;}
+  c.innerHTML=favoriteMenuIds.map(function(id){
+    var r=MENU_BOOK.find(function(x){return x.id===id;});
+    if(!r)return '';
+    var safeId=escapeHtml(id);
+    return '<div class="menu-fav-row"><button type="button" class="menu-fav-open" data-fav-action="open" data-id="'+safeId+'">'+escapeHtml(r.name)+'</button><button type="button" class="menu-fav-add" data-fav-action="add" data-id="'+safeId+'">Ajouter les ingrédients</button><button type="button" class="menu-fav-remove" data-fav-action="remove" data-id="'+safeId+'" aria-label="Supprimer cette recette des favoris">Supprimer</button></div>';
+  }).join('');
+};
+renderFavoriteMenus();
+</script>
