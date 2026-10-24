@@ -561,7 +561,7 @@
     <div class="d">Prépare tes courses</div>
   </div>
 
-  <div class="quick-card" onclick="goTo('liste')">
+    <div class="quick-card" onclick="openStorePromos()">
     <div class="emoji">🏷️</div>
     <div class="t">Les offres</div>
     <div class="d">Consulte les promotions</div>
@@ -784,6 +784,20 @@ function onStoreChange(){
   selectedStoreId = document.getElementById('storeSelect').value;
   safeSet('selectedStoreId', selectedStoreId);
   renderStoreInfo();
+}
+function openStorePromos(){
+  const store = stores.find(s => s.id === selectedStoreId);
+  if (!store){ alert('Aucun magasin sélectionné.'); return; }
+  const name = (store.enseigne || '').toLowerCase();
+  const promoUrl = name.includes('carrefour')
+    ? 'https://www.carrefour.fr/promotions'
+    : name.includes('leclerc')
+      ? 'https://www.e.leclerc/prospectus?type=01'
+      : name.includes('lidl')
+        ? 'https://www.lidl.fr/c/catalogues-en-ligne/s10017753'
+        : store.promoUrl;
+  if (promoUrl) window.open(promoUrl, '_blank', 'noopener,noreferrer');
+  else alert('Aucune page de promotions connue pour cette enseigne.');
 }
 function addStore(){
   const enseigneEl = document.getElementById('newStoreEnseigne'), villeEl = document.getElementById('newStoreVille');
