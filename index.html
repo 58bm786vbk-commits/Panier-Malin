@@ -1,68 +1,833 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#103b69">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Panier Malin">
-  <title>Panier Malin</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Panier Malin">
+<meta name="theme-color" content="#1F4D3A">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="icon" href="data:image/png;base64,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">
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIlBhbmllciBNYWxpbiIsICJzaG9ydF9uYW1lIjogIlBhbmllciBNYWxpbiIsICJkZXNjcmlwdGlvbiI6ICJDb3Vyc2VzLCBjYXNoYmFjayBldCBmaWTDqWxpdMOpIGR1IHNhbWVkaSIsICJzdGFydF91cmwiOiAiLiIsICJzY29wZSI6ICIuIiwgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNGN0YzRUEiLCAidGhlbWVfY29sb3IiOiAiIzFGNEQzQSIsICJpY29ucyI6IFt7InNyYyI6ICJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQU1BQUFBREFDQUlBQUFEZHZ2dFFBQUFIRGtsRVFWUjRuTzNjZTB5VlpSekFjZVVjNG1xYVhBYkN3cVNtQWVtOFVzeHlycktzWWJrV3E3R2FyYXRrbTVleW12VkgvbFZHT21OcDJZVnFDeDEyMFpWNFNib3NKVEExRWJLWXFNc2pJaWkzbytMeEhPRHREelpHUW5ETzgzdDQzL2ZZOS9PbjdubmUzOWgzei91ZXcrRU1UOG5PR2diYnFNaHhhTmtuczdoVHl6NkRjcHB6R2ZoRFZ6MTl0eHE2bmdqSUxqVFdNOERtMmtzSzBic2RiSzRpeDZHM1ZBS3loU0U5ZnZxOW5LNHJFdEQvbDVhTUNNaDZKaDgvZmE4dUdZQ0FNR3lZSUdJQ3NwaTF4MDl2YWtjUkFlRmZBbTJJZ0t4a24rT250NENtSWlEMHcvK0dDQWo5ODdNaEFyS01QZTlmdmZreklRRmhJSU0yUkVBWXhNQU5FWkExN0gvLzZtMkFhUWtJZnZtdmhnZ0lJZ1FFZi9WN0NCRVFBdEMzSVFLeVFIQTlRUStNZ0JDWUsrb25JSWdRRUFMVyt4QWlJSWdRRUZUMEhFSUVCQkVDZ3FMdVE0aUFJRUpBRUNFZ3FLdkljUkFRUkFnSUlnUUVFUUt5Z0duZlAyY0NBb0lJQVVHRWdDQkNRQkFoSUd0Y05jL1JCQVFSQW9JSUFWbm02cmlMRVJCRUNBZ2lCR1NscStBdVJrQVFJU0NMQmZzaFJFQVFJU0RyQmZVaFJFQVFJU0JiQ041RGlJQWdRa0IyRWFTSEVBSFpTREEyUkVBUUlTQjdDYnBEaUlCc0o3Z2FJaUE3Q3FLR25GWVBJREp2NXF4VmVVdXN1cnF2bzhQYjRmTjR2UzN1dHNiV2xzYm1wdG82ViswcFY5WHgycWEyVnVIbW1jV2RRZkZ0d01FZGtMVkNuYzVRcHpNcVBDTG0ycEUzSmwvZis3K08xWjBxLzZOeVIzblovcG9qaG1HbzdSOFVEUkhRa0VoTlNrNU5TczZkYy8rWjVxWk51M2RzM0wyOTdjSUZoWDNzM3hEUFFFTXJZWFRNNHB6Y253cytYcHlUR3hFV3JyQ0R6WitIQ01nTTRXRmh6ejM0OE03VjYyWlBtYTZ3M000TkVaQjU0cThidmY3RkZhOHZlTWJwQ1BpdVpOdUdocWRrWjFrOXc1Qklpb3N2WGJ0QlllSGF6VVhydnludS9TL1hoSVpHUjBTTWlZMVBHenN1TS8yVzJaT25SNGFyM0l4NmxGVlh2ckQ2ell1ZVM0RXV0T0h6RUNmUTRMdytYN1BiWFgyOHR2aUhYY3NLM3BtWnQyQlYwYWZ1OW92S0cyWmxUQ3Bjc1ZMaGtjaUc1eEFCQmF6ZDQvbmt1eTF6bCtidFBYeEllWk9KcVRlOXUzaTVJeVRnbjM5bWNhZXRNaUlnUlUzdXRxZmZldU9ybjNZcjczRDdwQ2tMNStlb3JiVlBRd1NrcnNzd1h2dnd2VDJIZjFmZVllSDhuUFFiVXRYVzJ1UW9JaUFSd3pDV3IxdHp0clZGYmJrakpPVGwzQ2NrQTFpZUVRRkpOYnZkS3d0Vlh1NTFtNUdXY1d2NlJPRU1GbVpFUUJxVTdpOC9VVitudlB5UnUrN1JNb1lsR2ZHN01BMjZES053MjlhVlQrV3BMYjl6YW1aVWVJVEMyMEw5Nm1sb1NOODA2cmtLSjVBZXBRZjJLYThOZFRwbnBHVm9IS1piOTRHazkwenF1eWNua0I1TmJhMS9uem1ka2pCR2JmbjBDZWsvSHZ4TjcwZzkramJrNStIa1Qzd0VwTTJCbWorVkF4cVhsS3gzbUlGcFBKYTRoV2xUMzNST2VXMUtRcUxHU2N4RVFOcW9mV1NzMjhpb0VSb25NUk1CYWRONndhMjhWdmpyZlFzUmtEWWhJZW92bXcyalMrTWtaaUlnYlVaRlJ5dXZiZmQ0TkU1aUpnTFNabFMwK25OTXkzbjEyNSsxQ0VpYnBMaDQ1YlVuNms5cm5NUk1CS1ROdFBGcHltdVAxYmswVG1JbUF0SWpNVFl1TVRaT2VYbkZrU3FOdzVpSmdQUzRkNGI2M3laY3V1dzVXUE9YeG1ITVJFQWFPQnlPeCtkbUt5OHYrWFhQWlo5WDR6eG1JaUFOc3JQdVNJeUpWVjYrcVhTbnhtRk1Sa0JTaVRHeHJ6NzJwUEx5MGdNVlZjZU9hcHpIWkFRazRuQTQ4aGN0RzZuNkZ1SmxuemUvNkhPOUk1bU1nTlE1SFk3ODU1ZE9IWCt6OGc1dkYzMG0rU3lzSGZCNUlFVUpvMlB5RnkyYk5rSDl2Wjl0WmI5OHNhdEU0MGlXSUtDQWpZaU1mUFR1KzU1OTRLR284QWpsVGNxcUsxOTVmNjN5ZDAvWkJ3RU56dWx3aklpTVNvcUxUeHM3N3JhTVNiTW5Ud3NQQzVOc3VMT2k3S1YxYTN3ZEhib210QkRmem1HcUxzUDRZTXZtZ2k4M2RnWC8yZE9ORThnOHJzYUdGUnNLOWgycHRub1FuUWpJRE9mYjJ6LzY5dXZDa3ExZW44L3FXVFFqb0tIbGFtd28rcjZrdUhTWHJyOGJ0QnNDMHM4d2pOcFRycjFWaDdhWDc2MnNyYkY2bktGRlFPbzZPanU5UHAvSDYyMCszM2EycGFXaCtWeHRuZXVvNjJUVjhhUE43bUQ5aEdHZ0NPaEtmYjhqRVFQZ1Z4a1FJU0NJRUJCRUNBZ2lCQVFSQW9JSUFVR0VnQ0JDUUJBaElJZ1FFRVFJQ0NJRUJCRUNnZ2dCUVlTQUlFSkFFQ0VnaUJBUVJBZ0lJZ1FFRVFLQ0NBRkJKTGkvbldQZXpGbXI4cGFZZjkwNVN4YWViS2czLzdvMnhBa0VFUUtDQ0FGQmhJQWdRa0FRQ2U1WFliQWNKeEJFQ0FnaUJBUVJBb0lJQVVHRWdDQkNRQkFoSUlnUUVFUUlDQ0lFQkJFQ2dnZ0JRWVNBSUVKQUVDRWdpQkFRUkFnSUlnUUVFUUtDQ0FGQmhJQWdRa0FRSVNDSUVCQkVDQWdpQkFRUkFvSUlBVUdFZ0NCQ1FCQWhJSWdRRUVRSUNDSUVCQkVDZ2dnQlFZU0FJRUpBRUNFZ2lCQVFSQWdJSWdRRUVRS0NDQUZCaElBZ1FrQVFJU0NJRUJCRUNBZ2lCQVFSQW9JSUFVR0VnQ0JDUUJBaElJZ1FFRVFJQ0NJRUJKRi9BUE0yNXA0SjhBM0lBQUFBQUVsRlRrU3VRbUNDIiwgInNpemVzIjogIjE5MngxOTIiLCAidHlwZSI6ICJpbWFnZS9wbmciLCAicHVycG9zZSI6ICJhbnkgbWFza2FibGUifSwgeyJzcmMiOiAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFnQUFBQUlBQ0FJQUFBQjdHa090QUFBVVhFbEVRVlI0bk8zZGU1aVdkWjNIOFlGaG1PR01LSWRWRVk4UnBHVzVpcWZTVXRteXNOS2tYUGZxcUxacm1sdm1kczVXYlkzTlBHeVdYUjd5a0ljdXRaSVVJM1BiMUVUeENDb2dvSElVRllRWkRpSXpqOFBzSDNZUjRURFBNTXh6Lys3NytiNWVsMzl3cVg5OG1JSDdQYi83T2ZVWU5lSFFHb0FPVFo5WW0zcENwNHk3dFRYMWhDTHBsWG9Ba0hkRnVmclhiSDJxTUxSTEFJQ09GT2pxMzRFdGZoZDY4Q1lCQU1MWnZBZVJZeUFBd0ZaVng0Ly9IWXNjQXdFQTJoZmg2citGVGIvbElDVVFBSUF0QlNtQkFBRHRDUGpqZjd1cXV3UTlVdzhBY3NmVi82Mm1UNnl0dmkrTEV3QkFaMVhaZ2NBSkFQZzcxZmR6YmlWVXg0RkFBQUM2cU9nWkVBRGdid3A5T1V1bHVCa1FBSUJ1VU1RTUNBRHdWNFc3ZnVWUXNUSWdBQURkckNnTkVBQ2dwcVk0MTZ5aUtNUlJRQUFBS2lYbkdSQUF3SS8vbFpYYkw2OEFBRlJjUG84Q0FnRFI1ZkRDVkszeTlxVVdBSURzNUtvQkFnQ2g1ZXA2RkVSK2JnY0pBRUFDZVdpQUFBQ2trYndCQWdCeEpiOEFrZloya0FBQUpKYXFBUUlBUWZueFAxZVNmRHNFQUNBWHNtK0FBQURrUmNZTkVBQ0l5UDJmM01yeVd5TUFBUG1TV1FNRUFDQjNzbW1BQUVBNDd2OFVRZ2JmSmdFQXlLbEtOMEFBQVBLcm9nMFFBSWpGL1ovQ3FkeTNUQUFBOHE1Q0RSQUFnQUtvUkFNRUFLQVl1cjBCQWdDQmVBQ2c2THIzT3lnQUFFWFNqUTBRQUlDZ0JBQ2dZTHJyRUNBQUVJVUhBS3BKdDN3M0JRQ2drTGEvQVFJQUVKUUFBQlRWZGg0Q0JBQkM4QUJBdGRxZTc2d0FBQlJibHhzZ0FBQkJDUUJBNFhYdEVDQUFBTldnQ3cwUUFJQ2dCQUNxbjZjQUJiR3QzMmdCQUFoS0FBQ3F4ellkQWdRQW9LcDB2Z0VDQUJDVUFBQlVtMDRlQWdRQUlDZ0JBS2hDblRrRUNBQlVPUzhDWUdzRUFLQTZsVzIvQUFBRUpRQUFWYXZqUTRBQUFBUWxBQURWcklORGdBQUFCQ1VBQUVFSkFFQ1YyOXBkSUFFQUNFb0FBS3BmdTRjQUFRQUlTZ0FBZ2hJQWdCRGVlaGRJQUFDQ0VnQ0FvQVFBSUlvdDdnSUpBRUJRQWdBUWxBQUFCTEw1WFNBQkFBaEtBQUNDRWdDQW9BUUFxdHk0VzF0VFR5QmZOajBNSUFBQVFRa0FRRkFDQUJDVUFBQ0U4K2JEQUFJQUVKUUFBQVFsQUFCQkNRQlVQeThGb0YwQ0FCRFI5SW0xQWdBUWxBQUFCQ1VBQUVFSkFFQlFBZ0FoZUNJUWJ5VUFBRUVKQUVCUUFnQVFsQUJBRkI0R1lBc0NBQkNVQUFBRUpRQUFRUWtBQk9KaEFEWW5BQUJCQ1FCQVVBSUFFSlFBUUN3ZUJtQVRBUUFJU2dBQWdoSUFDTWRkSU40a0FBQkJDUUJBVUFJQUVia0xSSTBBQUlRbEFBQkJDUUFFNVM0UUFnQVFsQUJBWEE0QndRa0FRRkFDQUJDVUFFQm83Z0pGSmdBQVFRa0FST2NRRUpZQUFBUWxBSUJEUUZBQ0FCQ1VBQUExTlE0QklRa0FRRkFDQVB5VlEwQTBBZ0FRbEFBQWYrTVFFSW9BQUFRbEFNRGZjUWlJUXdBQWdoSUFZRXNPQVVFSUFOQU9EWWhBQUFDQ0VnQ2dmUTRCVlU4QWdLM1NnT29tQUFCQkNRRFFFWWVBS2lZQVFCa2FVSzBFQUNBb0FRREtjd2lvU2dJQWRJb0dWQjhCQUFoS0FJRE9jZ2lvTWdJQWJBTU5xQ1lDQUd3YkRhZ2FBZ0FRbEFBQTI4d2hvRG9JQU5BVkdsQUZCQURvSWcwb09nRUF1azREQ3ExWDZnR2tjZlpKbno1MXd2R3BWMVNKMXRiVzVsS3B1ZFRTWENxMWxGcWFXLzc2NjhhMWExWTBOYTVvWExXaXFYSFRQeXRYTjdWdTNKaDZjbmNhZDJ2cjlJbTFxVmZRRlFJQTI2dTJ0clp2YlczZmhvYk8vTTh0cGRJTHkxNmN2M1RSL0NXTDV5MVo5TnpTSlMrK3VyeXRyYTNTSXl0S0F3cEtBQ0JUdmV2cTNqNXE5N2VQMm4zVHYxbS9ZY09jUlF1bXozNTYrcXluWjh5ZjIxeHFTYmVPV0FRQUV1dmIwSERBNkRFSGpCNXorc2NudHBSS00rYlBuVDc3NmVtem4zNXkzck1GdWxua0VGQkVBZ0E1MHJ1dTdxQ3greDQwZHQ4emEwNWF1V2IxMUljZnZHdmEvVFBtenkzRVBTSU5LQndCZ0p6YWNlQ2drOGNmZS9MNFk1ZTl1dUt1YWZkUG1mYkEzTVVMVTQ4cVF3T0t4ZE5BSWU5MjNtbm9hY2VkTVBtSGw5NTIvbzgrT082dzJwNjUvbXZyaWFFRmt1cy9TY0RtOXR0cm4wdlBPbWZxeFZlY1BQN1lodnI2MUhPMlNnT0tRZ0NnWUVZT0cvN2R6NTcyNTU5Y2ZlWW5UaHJZdDEvcU9lM1RnRUlRQUNpa3dmMEhmT240VDA2OStJcUpIeGpmczBlUDFIUGFvUUg1SndCUVlFTUdEanp2bE5Odi84R1BEeGc5SnZXV2RtaEF6Z2tBRk43WTNmZTg2ZHdMZjN6bTJjT0g3Smg2eTViRzNkb3FBN2tsQUZBbFBuekllKytjZE5reEJ4NmNla2c3TkNDZkJBQ3F4OEIrL1gveWxXOTgvL1AvMnRDN2Qrb3RXOUtBSEJJQXFEYWZPdnFEdDE5dzBUNGpkMHM5WkVzYWtEY0NBRlZvNzExM3UvMkNpMDQ0OHVqVVE3YWtBYm5TWTlTRVExTnZvTml1L3NhNWg3L3ozYWxYYk9uVVNlYzlNUE9KVHY3UHZldnErdFRYOTYxdjZGUGZzT09nUVNPSGpSZzViUGl1dzRhUDNYMnZQWGZlcFVjdW4yVFpTVmZkK1p1TGYvWEx2TDJWa0xlTHlBbnZCUVExTGFWU1M2bTBldDI2bXBxYUY1WXRmWFRPckUzL2FYRC9BZThaUGVZZlI0OGRQKzZRWFljT1Q3ZXhpMDZkY1B6SVljUFArZWtscFRmZVNMM2xiOTQ4QjhoQWNtNEJRVWVhMXEzOTArT1AvUGZOMXgxOTFoYy8rYjJ2LzNMcVhVM3IxcVlldFcwK09PNnduNTM5TFE4TDgxWUNBSjAxODdtNVA3amg2dmVmZWVxa0c2OWQzcmdxOVp4dDhONTN2ZWVxcjUrYnc3Y1Awb0MwQkFDMnpldk5HNjY5ZS9KUlo1MTJ3ZlZYclh0OWZlbzVuWFhnbUhmODlDdmZyT3VWdTd1K1hpbVdrQUJBVjVUZWVPUEdQMHc1OW10bjNQUElRNm0zZE5aaDc5ei94MmVjN1kyRDJFUUFvT3VXTjY3NjhxV1R2bnpwcE5jMnZKNTZTNmVNUCtpUXI1MzBtZFFyMnVjb2tEMEJnTzExenlNUFRmenVPUXRlZWpIMWtFNzUvRWMrbHNQWEIyeWlBVmtTQU9nR3o3KzQ5TVR2bkRQdDZSbXBoM1RLdVovNzRwaFJlNlJlc1ZXT0Fwa1JBT2dlNjE1Zi8yOFgvVmZuWDMyV1VPKzZ1a3ZQT3FkZlE1L1VRenFpQVJrUUFPZzJ6YVdXTDExODRmMHpDdENBVVNOMi90YW52NUI2UlJtT0FwVW1BTkNkV2txbE15NjU4S25uNTZjZVV0NEpSeDZkdy9md2VDc1pxQndCZ0c3V1VpcWRjZkdGSzVvYVV3OHA3L3hUVHMvaHE4UGFwUUdWSUFEUS9aWTNyanJqNGgrMmxFcXBoNVR4RHpzTlBlMjRFMUt2NkN4SGdXNG5BRkFSTTUrYmUvbXZmNVY2UlhtZi8vREhkdDVwYU9vVjIwQUd1cEVBUUtWY00rV08yUXVlVDcyaWpJYmV2Yzg0NFZPcFYyd3pHZWdXQWdDVjB0cmErdTByTDI5dHpmdDE2cU9ISHpseVdQSGU2YnBHQnJhYkFFQUZ6Vm0wNEZmL096WDFpakpxYTJ0UCsrZ25VcS9vT2hub01nR0F5dnI1SGJkdmFHbEp2YUtNNHc0L1luRC9BYWxYYkpjM002QUUyMFFBb0xKV05EWGVjdS92VTY4b283NnU5NG52UHliMWl1NGhBNTBuQUZCeFYvL3VOL2wvU3VqRW8vNHA5WVR1NUVEUWdVMWZIQUdBaWx1NVp2VzlqMDFQdmFLTWtjT0c3Ny9QNk5RcnVwOE1iRzZMcjBidVBoNElxdEx0Ly9mSFl3ODVQUFdLTWlZY2RzU00rWE5UcjZpSVRWZTltSjlFdjdVRUNnQms0YUZaVHkxZDhjcXVRM1A5Yk10akRqejQvT3V1VEwyaXNrS1ZvT3pSUndBZ0MyMXRiWGMvOUplY3YrL0NzQjJHak4xOXo5a0xYMGc5SkF1Ylh4eXJLUWJiZEw5TEFDQWpEOHg0SXVjQnFLbXBlZC8rQndRSndPYUtIb011UDhnaEFKQ1JKK1kvdTNiOStnRjkrNlllMHBHRHhyemo1M2ZjbG5wRlNsdGNUUFBaZys1NldGc0FJQ090cmEwUFBUTnovRUdIcEI3U2tYZnRNN3EyWjgvV2pSdFREOG1MblBTZ1FrOWtFZ0RJenBQem5zMTVBUG8xOUhuYnlGRnpGaTFJUFNTbk9yZ1FiMzhic24rNnFnQkFkZ3B4ZTMzMHFEMEVvQXVLK0dvREx3U0Q3TXdwUkFCR2prbzlnWXdJQUdSbnpmclhYbHl4UFBXS012WVp1VnZxQ1dSRUFDQlRDMTlhbG5wQ0dic01IWlo2QWhrUkFNalVLNDByVTA4b28xaWZFTW4yRUFESTFNdXI4aDZBK3JyZVF3WU9UTDJDTEFnQVpPcmxsYSttbmxEZURnTUVJQVFCZ0V5OXVyb3A5WVR5QnZVcjlxZUQwVWtDQUpuSy84ZEQxdFRVRE9yZlAvVUVzaUFBa0tubWx1YlVFOHFycit1ZGVnSlpFQURJVkhQdVB4dXlwcWFtcnBmM0NBaEJBQ0JUaGJnRkpBQkJDQUJrcXJabkFmN1NiV3hyU3oyQkxCVGd6eUpVazRiZUJiaTlYbnFqQVBlcDJINENBSm1xTDBZQTNrZzlnU3dJQUdTcUVDZUE5UnMycEo1QUZnUUFNdFczdmsvcUNlVTFyVnViZWdKWkVBREkxUEFoUTFKUEtHKzFBTVFnQUpDcEVVTjJTajJodkpWclZxZWVRQllFQURJMUxQY25nS1oxYXowR0VJUUFRS2J5ZndMSS8yZVcwVjBFQURLMXo2NGpVMDhvWS9Fckw2ZWVRRVlFQUxLenk5QmhBL3ZsL1kwMjV5MVpsSG9DR1JFQXlNN1kzZmRNUGFHOGVZc0ZJQW9CZ095TUtVSUFaaTk4UHZVRU1pSUFrSjF4WS9kTFBhR01sMTVkOFZJUlByU1NiaUVBa0pHQmZmdnR2L2ZiVXE4bzQ0bDV6NmFlUUhZRUFESnk2SDc3MTliV3BsNVJ4a1BQekV3OWdld0lBR1RraUhjZmtIcENHVzF0YmZmTmVEejFDcklqQUpDRmh2cjZZdzQ4T1BXS011WXNmR0ZGVTJQcUZXUkhBQ0FMSHhwM1dQOCtmVk92S0dQcTlHbXBKNUFwQVlBc25QaUJZMUpQS0tPdHJlM09hZmVuWGtHbUJBQXE3dTJqZG4vUDI4YWtYbEhHWTgvT2Z1blZGYWxYa0NrQmdJbzc4eE1ucFo1UTNzMS92RHYxQkxJbUFGQlpZL2ZZNjZnRHhxVmVVY2J5eGxYM1BQcHc2aFZrVFFDZ3NzNDY4WjlUVHlqdnhqOU1hVzF0VGIyQ3JBa0FWTkF4Qng1eXhQNTVmL3AvMDdxMU45NHpKZlVLRWhBQXFKU0IvZnFmKzduVFVxOG83eGRUSnZzSXNKZ0VBQ3JsRy8veXVaMEc3NUI2UlJrdnIxcDV3OVE3VTY4Z0RRR0FpdmpvZTQ4OC9vaWpVcThvNzZKYnJ0L1EzSng2QldrSUFIUy9mZmZjKzd4VFRrKzlvcnhIbjUwMVpkb0RxVmVRakFCQU45dHA4QTZYZi9XYjlYVzlVdzhwWTBOTHkzZXUvR2xiVzF2cUlTUWpBTkNkZGh3NDZMcHYvZWVJSVR1bUhsTGVaYmZldE9qbFphbFhrSklBUUxmWmNlQ2c2Nzl6L3Q2NzdwWjZTSGwvZWVySjYzNy91OVFyU0V3QW9IdnNNblRZOWQrOW9CQlgvK1dOcS83alo1ZTQrVU92MUFPZ0doejhqbmRlZXRZNWcvc1BTRDJrdkpaUzZjeExKcTFhc3liMUVOSVRBTmd1UFhyMCtPeXh4MzN0cE0vVTlpekdlZnJiVjE0Kzg3bTVxVmVRQ3dJQVhiZjNycnRkY09xWDl0OW5kT29oblhYWmJUZmYrZUI5cVZlUUZ3SUFYVEdnYjk5VEpoei9oWTk4dkZmdVArZDlrMnVuVEw3aXQ3ZW1Ya0dPQ0FCc214MEdEUHpNaHlhY1BQN0RBL3JtL1NNZU4zZkx2Vk1uM1hSdDZoWGtpd0JBcDlUMjdEbHU3SDRmT2V4OUh6cjRzRDcxRGFubmJKdHJwMHgyOWVldEJBQTZzdU9nd1FlTUhqTnU3TDdqRHpwMGFPN2YyYTFkbDkxMnN6cy90RXNBb0thdVY2OCs5UTE5NitzYjZ1dUhEdDVoNUxBUnV3MGZNWEw0aUgzMzJHdlVpSjFUcit1NmxsTHAyMWRlN2xGZnRrWUFxRTVYZmYxN3FTY2t0cnh4MWI5ZjlxTW41czFKUFlUOEVnQ29RbjkrOHJGdi92eC9HdGQ2dFJjZEVRQ29LaTJsMGtXMzNPQXpYdWdNQVlEcXNmQ2xaVi85eVVXekY3NlFlZ2pGSUFCUURWcEtwV3Z2bm56RkhiZjVlQzg2VHdDZzhQNzArQ01YL3ZLYUpjdGZTVDJFZ2hFQUtMQVhsaTM5d1ExWFAvalVqTlJES0NRQmdFSmE5UEt5WDB5Wi9Pcy8zL3RHYTJ2cUxSU1ZBRURCekh4dTNqVjMvZmJlUngvZTZCTmQyRDRDQU1YUTF0WjIzNHpIcjducnQ0L09tWlY2QzFWQ0FDRHY1aTVlZU9lRDkwMlo5c0JMSzE5TnZZV3FJZ0NRVTB1V3YzTDNRdy9jK1pmN25udHhTZW90VkNjQmdCeDViY1ByanowNysrRlpUejM4ekZOekZpMUlQWWNxSndDUTJKclgxajJ6NFBucHM1NStlTmJUenl4NHJ0V3plc2lLQUVDbU5qUTNQNzlzNmZ3bGkrWXRYVHh2OGFMNVN4ZS9zbXBsNmxFRUpRQ3d2Vm8zYm13cHRUU1hTczB0TGMybDBwdS8zdERTc21yTjZoVk5qU3VhR2xjMHJucnpGOHViR2xldGJ2TDBUWEpDQUtoT3AwNDY3NEdaVDZSZUFibldNL1VBQU5JUUFJQ2dCQUFnS0FFQUNFb0FBSUlTQUlDZ0JBQWdLQUVBQ0VvQUFJSVNBSUNnQkFBZ0tBRUFDRW9BQUlJU0FJQ2dCQUFnS0FFQUNFb0FBSUlTQUlDZ0JBQWdLQUVBQ0VvQUFJSVNBSUNnQkFBZ0tBRUFDRW9BQUlJU0FJQ2dCQUFnS0FFQUNFb0FBSUlTQUlDZ0JBQWdLQUVBQ0VvQUFJSVNBSUNnQkFBZ0tBRUFDRW9BQUlJU0FJQ2dCQUFnS0FFQUNFb0FBSUlTQUlDZ0JBQWdLQUVBQ0VvQUFJSVNBSUNnQkFBZ0tBRUFDRW9BQUlJU0FJQ2dCQUFnS0FFQUNFb0FBSUlTQUlDZ0JBQWdLQUVBQ0VvQUFJSVNBSUNnQkFBZ0tBRUFDRW9BQUlJU0FJQ2dCQUFncUI2akpoeWFlZ01KbkgzU3AwK2RjSHpxRlVWMTB6MTNuMy9kbGFsWHdQWnlBZ0FJU2dBQWdoSUFnS0FFQUNBb0FRQUlTZ0FBZ2hJQWdLQUVBQ0FvQVFBSVNnQUFnaElBZ0tBRUFDQW9BUUFJU2dBQWdoSUFnS0I4SGdCQVVFNEFBRUVKQUVCUUFnQVFsQUFBQkNVQUFFRUpBRUJRQWdBUWxBQUFCQ1VBQUVFSkFFQlFBZ0FRbEFBQUJDVUFBRUVKQUVCUUFnQVFsQUFBQkNVQUFFRUpBRUJRQWdBUWxBQUFCQ1VBQUVFSkFFQlFBZ0FRbEFBQUJDVUFBRUVKQUVCUUFnQVFsQUFBQkNVQUFFRUpBRUJRQWdBUWxBQUFCQ1VBQUVFSkFFQlFBZ0FRbEFBQUJDVUFBRUVKQUVCUUFnQVFsQUFBQkNVQUFFRUpBRUJRQWdBUWxBQUFCQ1VBQUVFSkFFQlFBZ0FRbEFBQUJDVUFBRUVKQUVCUUFnQVFsQUFBQkNVQUFFRUpBRUJRQWdBUWxBQUFCQ1VBQUVFSkFFQlFBZ0FRbEFBQUJDVUFBRUVKQUVCUUFnQVFsQUFBQkNVQUFFRUpBRUJRQWdBUWxBQUFCQ1VBQUVFSkFFQlFBZ0FRbEFBQUJDVUFBRUVKQUVCUUFnQVFsQUFBQkNVQUFFRUpBRUJRQWdBUWxBQUFCQ1VBQUVFSkFFQlFBZ0FRbEFBQUJDVUFBRUVKQUVCUUFnQVFsQUFBQkNVQUFFRUpBRUJRQWdBUWxBQUFCQ1VBQUVFSkFFQlFBZ0FRbEFBQUJDVUFBRUVKQUVCUUFnQVFsQUFBQkNVQUFFRUpBRUJRQWdBUWxBQUFCQ1VBQUVFSkFFQlFBZ0FRbEFBQUJDVUFBRUVKQUVCUUFnQVFsQUFBQkNVQUFFRUpBRUJRQWdBUWxBQUFCQ1VBQUVFSkFFQlFBZ0FRbEFBQUJDVUFBRUVKQUVCUUFnQVFsQUFBQkNVQUFFRUpBRUJRQWdBUWxBQUFCQ1VBQUVFSkFFQlFBZ0FRbEFBQUJDVUFBRUVKQUVCUUFnQVFsQUFBQkNVQUFFRUpBRUJRQWdBUWxBQUFCQ1VBQUVFSkFFQlFBZ0FRbEFBQUJDVUFBRUVKQUVCUUFnQVFsQUFBQkNVQUFFRUpBRUJRQWdBUWxBQUFCQ1VBQUVFSkFFQlFBZ0FRbEFBQUJDVUFBRUVKQUVCUS93OVZxK0RPWkxLR25nQUFBQUJKUlU1RXJrSmdnZz09IiwgInNpemVzIjogIjUxMng1MTIiLCAidHlwZSI6ICJpbWFnZS9wbmciLCAicHVycG9zZSI6ICJhbnkgbWFza2FibGUifV19">
+<title>Panier Malin</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap');
+
+  :root{
+    --cream:#F7F3EA;
+    --card:#FFFFFF;
+    --green:#1F4D3A;
+    --green-soft:#DCEEDF;
+    --amber:#E8A33D;
+    --amber-soft:#FBE7C6;
+    --ink:#1C1B18;
+    --muted:#8A8272;
+    --rule: rgba(28,27,24,0.10);
+    --shadow: 0 10px 30px rgba(28,27,24,0.10), 0 2px 6px rgba(28,27,24,0.06);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--cream);
+    font-family:'Manrope', sans-serif;
+    color:var(--ink);
+    display:flex;
+    justify-content:center;
+  }
+  .app{
+    width:100%;
+    max-width:430px;
+    min-height:100vh;
+    background:var(--cream);
+    display:flex;
+    flex-direction:column;
+    position:relative;
+  }
+  header{
+    padding:22px 20px 14px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .app-icon{
+    width:42px;height:42px;
+    background:var(--green);
+    border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;
+    flex-shrink:0;
+    box-shadow: var(--shadow);
+  }
+  header .titles{ flex:1; }
+  header .titles h1{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:20px;
+    margin:0;
+    line-height:1.1;
+  }
+  header .titles .sub{
+    font-size:11.5px;
+    color:var(--muted);
+    margin-top:2px;
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.3px;
+  }
+  main{
+    flex:1;
+    padding:4px 20px 106px;
+  }
+  .screen{ display:none; animation: fade .2s ease; }
+  .screen.active{ display:block; }
+  @keyframes fade{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
+
+  .sticker{
+    background:var(--green);
+    color:var(--cream);
+    border-radius:18px;
+    padding:20px 20px 18px;
+    position:relative;
+    margin-bottom:16px;
+    box-shadow: var(--shadow);
+    overflow:hidden;
+  }
+  .sticker::after{
+    content:"";
+    position:absolute;
+    top:-30px; right:-30px;
+    width:110px;height:110px;
+    background:var(--amber);
+    border-radius:50%;
+    opacity:0.9;
+  }
+  .sticker .tag-corner{
+    position:absolute;
+    top:14px; right:14px;
+    background:var(--amber);
+    color:var(--ink);
+    font-family:'JetBrains Mono', monospace;
+    font-weight:800;
+    font-size:10px;
+    padding:4px 8px;
+    border-radius:20px;
+    transform:rotate(6deg);
+    z-index:2;
+    box-shadow:0 3px 8px rgba(0,0,0,0.15);
+  }
+  .sticker .label{
+    font-size:11.5px;
+    letter-spacing:1.5px;
+    font-family:'JetBrains Mono', monospace;
+    opacity:0.85;
+    position:relative; z-index:2;
+  }
+  .sticker .amount{
+    font-family:'Fraunces', serif;
+    font-weight:800;
+    font-size:38px;
+    margin-top:2px;
+    position:relative; z-index:2;
+    line-height:1;
+  }
+  .sticker .caption{
+    font-size:12px;
+    opacity:0.85;
+    margin-top:6px;
+    position:relative; z-index:2;
+  }
+  .progress-card{
+    background:var(--card);
+    border-radius:16px;
+    padding:16px 16px 14px;
+    box-shadow: var(--shadow);
+    margin-bottom:14px;
+  }
+  .progress-card .row-between{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-bottom:8px;
+  }
+  .progress-card .row-between .t{ font-weight:700; font-size:14px; }
+  .progress-card .row-between .n{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px; color:var(--muted);
+  }
+  .bar-track{ height:8px; background:var(--rule); border-radius:6px; overflow:hidden; }
+  .bar-fill{ height:100%; background:var(--amber); border-radius:6px; transition: width .3s ease; }
+  .quick-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:6px;
+  }
+  .quick-card{
+    background:var(--card);
+    border-radius:14px;
+    padding:14px;
+    box-shadow: var(--shadow);
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .quick-card .emoji{ font-size:20px; }
+  .quick-card .t{ font-weight:700; font-size:13px; }
+  .quick-card .d{ font-size:11px; color:var(--muted); }
+  .section-title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:16px;
+    margin: 18px 0 10px;
+  }
+  .section-title.first{ margin-top:2px; }
+  .section-sub{
+    font-size:11.5px;
+    color:var(--muted);
+    margin:-6px 0 12px;
+    line-height:1.4;
+  }
+  .step-card{
+    background:var(--card);
+    border-radius:14px;
+    padding:12px 12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    box-shadow: var(--shadow);
+    margin-bottom:8px;
+  }
+  .badge{
+    width:36px;height:36px;
+    border-radius:10px;
+    background:var(--green-soft);
+    display:flex;align-items:center;justify-content:center;
+    font-size:17px;
+    flex-shrink:0;
+  }
+  .step-info{ flex:1; min-width:0; }
+  .step-info .t{ font-weight:700; font-size:13.5px; }
+  .step-card.done .step-info .t{ color:var(--muted); text-decoration:line-through; }
+  .step-actions{ display:flex; align-items:center; gap:6px; flex-shrink:0; }
+  .go-btn{
+    background:var(--amber-soft);
+    color:#8A5A0E;
+    border:none;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:800;
+    font-size:10px;
+    padding:7px 9px;
+    border-radius:8px;
+  }
+  .check-btn{
+    width:30px;height:30px;
+    border-radius:9px;
+    border:1.6px solid var(--rule);
+    background:var(--card);
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;
+    color:var(--green);
+  }
+  .step-card.done .check-btn{ background:var(--green-soft); border-color:var(--green); }
+  .del-x{ color:var(--muted); font-size:17px; padding:0 2px; opacity:0.45; }
+  .add-row{ display:flex; gap:6px; margin-top:4px; margin-bottom:18px; }
+  .add-row input{
+    flex:1;
+    background:var(--card);
+    border:1.4px dashed var(--rule);
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:13px;
+    font-family:'Manrope', sans-serif;
+    color:var(--ink);
+    min-width:0;
+  }
+  .add-row input:focus{ outline:none; border-color:var(--green); }
+  .add-row button{
+    background:var(--ink);
+    color:var(--cream);
+    border:none;
+    border-radius:10px;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:11px;
+    padding:0 14px;
+    flex-shrink:0;
+  }
+  .store-picker{
+    background:var(--card);
+    border-radius:14px;
+    padding:14px;
+    box-shadow: var(--shadow);
+    margin-bottom:14px;
+  }
+  .store-picker .t{ font-weight:700; font-size:13.5px; margin-bottom:10px; }
+  select.store-select{
+    width:100%;
+    padding:10px 12px;
+    border-radius:10px;
+    border:1.4px solid var(--rule);
+    background:var(--cream);
+    font-family:'Manrope', sans-serif;
+    font-weight:600;
+    font-size:13.5px;
+    color:var(--ink);
+    margin-bottom:10px;
+  }
+  .store-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--green-soft);
+    color:var(--green);
+    font-weight:700;
+    font-size:12px;
+    padding:6px 12px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+  .promo-link{
+    display:inline-block;
+    background:var(--amber-soft);
+    color:#8A5A0E;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:800;
+    font-size:11px;
+    padding:8px 12px;
+    border-radius:10px;
+    margin-top:4px;
+  }
+  .new-store-form{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    border-top:1.4px dashed var(--rule);
+    padding-top:12px;
+    margin-top:4px;
+  }
+  .new-store-form input{
+    background:var(--cream);
+    border:1.4px solid var(--rule);
+    border-radius:10px;
+    padding:9px 10px;
+    font-size:13px;
+    font-family:'Manrope', sans-serif;
+  }
+  .new-store-form button{
+    background:var(--green);
+    color:var(--cream);
+    border:none;
+    border-radius:10px;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:11.5px;
+    padding:9px;
+  }
+  .note-box{
+    background:var(--amber-soft);
+    color:#6B4A12;
+    font-size:11.5px;
+    line-height:1.4;
+    padding:10px 12px;
+    border-radius:10px;
+    margin-bottom:14px;
+  }
+  .loyalty-card{
+    background:linear-gradient(135deg, var(--green), #14352A);
+    color:var(--cream);
+    border-radius:16px;
+    padding:16px 16px 14px;
+    margin-bottom:12px;
+    box-shadow: var(--shadow);
+    position:relative;
+  }
+  .loyalty-card .ens{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:16px;
+  }
+  .loyalty-card .num{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:19px;
+    letter-spacing:2px;
+    margin-top:10px;
+  }
+  .loyalty-card .ville{
+    font-size:11px;
+    opacity:0.75;
+    margin-top:6px;
+  }
+  .loyalty-card .del-card{
+    position:absolute;
+    top:12px; right:14px;
+    color:var(--cream);
+    opacity:0.6;
+    font-size:16px;
+  }
+  .new-card-form{
+    background:var(--card);
+    border-radius:14px;
+    padding:14px;
+    box-shadow: var(--shadow);
+    margin-bottom:16px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .new-card-form .t{ font-weight:700; font-size:13.5px; }
+  .new-card-form input{
+    background:var(--cream);
+    border:1.4px solid var(--rule);
+    border-radius:10px;
+    padding:9px 10px;
+    font-size:13px;
+    font-family:'Manrope', sans-serif;
+  }
+  .new-card-form button{
+    background:var(--ink);
+    color:var(--cream);
+    border:none;
+    border-radius:10px;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:11.5px;
+    padding:10px;
+  }
+  .gains-form{
+    background:var(--card);
+    border-radius:14px;
+    padding:14px;
+    box-shadow: var(--shadow);
+    margin-bottom:16px;
+  }
+  .gains-form .t{ font-weight:700; font-size:13.5px; margin-bottom:8px; }
+  .gains-form .row{ display:flex; gap:8px; }
+  .gains-form input{
+    border:1.4px solid var(--rule);
+    border-radius:10px;
+    padding:9px 10px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+  }
+  .gains-form input[type="number"]{ width:100px; }
+  .gains-form input[type="text"]{ flex:1; min-width:0; }
+  .gains-form button{
+    background:var(--green);
+    color:var(--cream);
+    border:none;
+    border-radius:10px;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:12px;
+    padding:0 14px;
+  }
+  .history-row{
+    background:var(--card);
+    border-radius:12px;
+    padding:10px 12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:7px;
+    box-shadow: var(--shadow);
+  }
+  .history-row .d{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    color:var(--muted);
+    width:78px;
+    flex-shrink:0;
+  }
+  .history-row .bar-wrap{ flex:1; height:16px; background:var(--rule); border-radius:5px; overflow:hidden; }
+  .history-row .bar{ height:100%; background:var(--amber); border-radius:5px; }
+  .history-row .amt{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:800;
+    font-size:12.5px;
+    width:56px;
+    text-align:right;
+    flex-shrink:0;
+  }
+  .history-row .del{ color:var(--muted); font-size:15px; opacity:0.4; flex-shrink:0; }
+  .empty-note{ text-align:center; color:var(--muted); font-size:12.5px; padding:16px 0; }
+  nav{
+    position:fixed;
+    bottom:0; left:0; right:0;
+    display:flex;
+    justify-content:center;
+    padding:0 0 max(10px, env(safe-area-inset-bottom));
+    pointer-events:none;
+  }
+  .navbar{
+    width:100%;
+    max-width:430px;
+    margin:0 10px;
+    background:var(--card);
+    border-radius:20px;
+    box-shadow: var(--shadow);
+    display:flex;
+    padding:7px 4px;
+    pointer-events:auto;
+  }
+  .nav-btn{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
+    padding:7px 2px 5px;
+    border-radius:14px;
+    color:var(--muted);
+  }
+  .nav-btn .ic{ font-size:17px; }
+  .nav-btn .lb{
+    font-size:8.7px;
+    font-weight:700;
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.2px;
+  }
+  .nav-btn.active{ background:var(--green-soft); color:var(--green); }
+</style>
 </head>
 <body>
-  <main class="app-shell">
-    <header class="topbar">
-      <button class="brand" data-page="home" aria-label="Retour à l'accueil"><span class="brand-mark">P</span><span>Panier <strong>Malin</strong></span></button>
-      <span class="prototype">Prototype V0.2</span>
-    </header>
-
-    <section id="home" class="page active">
-      <div class="hero"><p class="eyebrow">VOS COURSES, PLUS MALINES</p><h1>Chaque euro compte.</h1><p>Repérez simplement les économies disponibles sur votre panier.</p></div>
-      <div class="summary-card"><p>Panier actuel</p><strong id="home-total" class="big-price">0,00 €</strong><div class="summary-divider"></div><div class="summary-row"><span>Économies potentielles</span><b id="home-savings" class="green">0,00 €</b></div><div class="summary-row"><span>Prix réel estimé</span><b id="home-real">0,00 €</b></div></div>
-      <button class="primary wide" data-page="optimize">Optimiser mon panier <span>→</span></button>
-      <section class="home-tip"><span>✦</span><p><b>Astuce du jour</b><br>Ajoutez vos produits et vos offres pour visualiser votre prix réel.</p></section>
+<div class="app">
+  <header>
+    <div class="app-icon">🧺</div>
+    <div class="titles">
+      <h1>Panier Malin</h1>
+      <div class="sub" id="weekLabel">SEM --</div>
+    </div>
+  </header>
+  <main>
+    <section class="screen active" id="screen-accueil">
+      <div class="sticker">
+        <div class="tag-corner">CASHBACK</div>
+        <div class="label">TOTAL ÉCONOMISÉ</div>
+        <div class="amount" id="heroTotal">0,00€</div>
+        <div class="caption" id="heroCaption">Aucun gain enregistré pour l'instant</div>
+      </div>
+      <div class="progress-card">
+        <div class="row-between">
+          <span class="t">Étapes cashback du samedi</span>
+          <span class="n" id="progressCount">0 / 0</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="progressBar" style="width:0%"></div></div>
+      </div>
+      <div class="section-title first">Accès rapide</div>
+      <div class="quick-grid">
+        <div class="quick-card" onclick="goTo('liste')">
+          <div class="emoji">📝</div><div class="t">Liste de courses</div><div class="d">Choisir le magasin</div>
+        </div>
+        <div class="quick-card" onclick="goTo('fidelite')">
+          <div class="emoji">💳</div><div class="t">Fidélité</div><div class="d">Vos cartes magasin</div>
+        </div>
+        <div class="quick-card" onclick="goTo('cashback')">
+          <div class="emoji">🧾</div><div class="t">Cashback</div><div class="d">Activer & réclamer</div>
+        </div>
+        <div class="quick-card" onclick="goTo('gains')">
+          <div class="emoji">💰</div><div class="t">Mes gains</div><div class="d">Historique & suivi</div>
+        </div>
+      </div>
     </section>
 
-    <section id="basket" class="page">
-      <div class="page-heading"><div><p class="eyebrow">VOTRE LISTE</p><h1>Mon panier</h1></div><button class="round-button" id="add-product" aria-label="Ajouter un produit">＋</button></div>
-      <p class="muted">Total avant optimisation : <b id="basket-total">0,00 €</b></p>
-      <div id="product-list" class="product-list"></div>
-      <button class="secondary wide" id="add-product-bottom">＋ Ajouter un produit</button>
+    <section class="screen" id="screen-liste">
+      <div class="section-title first">Liste de courses</div>
+      <div class="store-picker">
+        <div class="t">1. Choisir le magasin</div>
+        <select class="store-select" id="storeSelect" onchange="onStoreChange()"></select>
+        <div id="storeInfoBlock"></div>
+        <div class="new-store-form">
+          <div class="t" style="margin-bottom:2px;">+ Ajouter un magasin</div>
+          <input type="text" id="newStoreEnseigne" placeholder="Enseigne (ex: Carrefour Market)">
+          <input type="text" id="newStoreVille" placeholder="Ville / lieu (ex: Calais)">
+          <button onclick="addStore()">Ajouter ce magasin</button>
+        </div>
+      </div>
+      <div class="note-box">
+        Je n'ai pas encore d'accès direct aux promos en temps réel de chaque magasin — le bouton "Voir les promos" ouvre le site de l'enseigne pour vérifier manuellement.
+      </div>
+      <div class="section-title">2. Articles à acheter</div>
+      <div id="listCourses"></div>
+      <div class="add-row">
+        <input type="text" id="newCourseItem" placeholder="+ ajouter un article...">
+        <button onclick="addCourseItem()">OK</button>
+      </div>
     </section>
 
-    <section id="optimize" class="page">
-      <div class="page-heading"><div><p class="eyebrow">ANALYSE SIMULÉE</p><h1>Optimiser</h1></div><span class="spark">✦</span></div>
-      <div class="optimization-total"><p>Prix réel estimé</p><strong id="opt-real">0,00 €</strong><span id="opt-saving">0,00 € économisés</span></div>
-      <section class="card"><h2>Votre optimisation</h2><div id="breakdown" class="breakdown"></div></section>
-      <section class="card"><h2>Détail par produit</h2><div id="product-breakdown"></div></section>
-      <section class="card recommendation"><div><span class="recommendation-icon">↗</span><h2>Une meilleure option</h2></div><p>Une autre marque permettrait d’économiser <b class="green">2,05 €</b> supplémentaires.</p><div class="button-pair"><button class="primary recommendation-action">Changer</button><button class="secondary recommendation-action">Garder mon choix</button></div></section>
-      <section class="card"><div class="section-title"><h2>Cashback à réclamer</h2><span class="pill">Simulé</span></div><div id="cashback-list" class="cashback-list"></div></section>
+    <section class="screen" id="screen-fidelite">
+      <div class="section-title first">Cartes de fidélité</div>
+      <div class="section-sub">Le numéro s'affiche en grand pour le montrer en caisse ou le saisir manuellement.</div>
+      <div id="loyaltyList"></div>
+      <div class="new-card-form">
+        <div class="t">+ Ajouter une carte</div>
+        <input type="text" id="newCardEnseigne" placeholder="Enseigne (ex: Lidl Plus)">
+        <input type="text" id="newCardNumero" placeholder="Numéro de carte">
+        <input type="text" id="newCardVille" placeholder="Ville / magasin (optionnel)">
+        <button onclick="addLoyaltyCard()">Ajouter la carte</button>
+      </div>
     </section>
 
-    <section id="wallet" class="page">
-      <div class="page-heading"><div><p class="eyebrow">VOS AVANTAGES</p><h1>Portefeuille</h1></div><button class="round-button" id="add-card" aria-label="Ajouter une carte">＋</button></div>
-      <p class="muted">Cartes cadeaux enregistrées</p><div id="gift-card-list" class="gift-card-list"></div>
-      <button class="secondary wide" id="add-card-bottom">＋ Ajouter une carte cadeau</button>
+    <section class="screen" id="screen-cashback">
+      <div class="section-title first">Avant les courses</div>
+      <div id="listBefore"></div>
+      <div class="add-row">
+        <input type="text" id="newBeforeName" placeholder="+ ajouter une étape...">
+        <button onclick="addItem('before')">OK</button>
+      </div>
+      <div class="section-title">Après les courses</div>
+      <div id="listAfter"></div>
+      <div class="add-row">
+        <input type="text" id="newAfterName" placeholder="+ ajouter une étape...">
+        <button onclick="addItem('after')">OK</button>
+      </div>
     </section>
 
-    <section id="receipt" class="page">
-      <div class="page-heading"><div><p class="eyebrow">HISTORIQUE</p><h1>Mon ticket</h1></div><span class="receipt-icon">▤</span></div>
-      <section class="upload-card"><div class="upload-icon">⌁</div><h2>Ajoutez votre ticket</h2><p>Importez une photo pour préparer une analyse automatique de vos achats.</p><label class="primary upload-label" for="receipt-input">Choisir une image</label><input id="receipt-input" type="file" accept="image/*" hidden><small>OCR & IA : fonctionnalité prévue dans une prochaine version.</small></section>
-      <div id="receipt-preview" class="receipt-preview hidden"><img alt="Aperçu du ticket importé"><p>Ticket prêt pour l’analyse simulée.</p></div>
-      <section class="home-tip"><span>✦</span><p><b>Bientôt disponible</b><br>Nous extrairons vos produits pour enrichir automatiquement votre panier.</p></section>
+    <section class="screen" id="screen-gains">
+      <div class="sticker" style="margin-bottom:14px;">
+        <div class="tag-corner">CUMULÉ</div>
+        <div class="label">DEPUIS LE DÉBUT</div>
+        <div class="amount" id="gainsTotal">0,00€</div>
+        <div class="caption" id="gainsCount">0 semaine enregistrée</div>
+      </div>
+      <div class="gains-form">
+        <div class="t">Ajouter un gain de la semaine</div>
+        <div class="row">
+          <input type="text" id="gainNote" placeholder="Note (ex: Carrefour)">
+          <input type="number" id="gainAmount" placeholder="0,00" step="0.01">
+          <button onclick="addGain()">+</button>
+        </div>
+      </div>
+      <div class="section-title">Historique</div>
+      <div id="gainsList"></div>
     </section>
   </main>
-
-  <nav class="bottom-nav" aria-label="Navigation principale">
-    <button data-page="home" class="nav-item active"><span>⌂</span>Accueil</button><button data-page="basket" class="nav-item"><span>▣</span>Mon panier</button><button data-page="optimize" class="nav-item"><span>✦</span>Optimiser</button><button data-page="wallet" class="nav-item"><span>▱</span>Portefeuille</button><button data-page="receipt" class="nav-item"><span>▤</span>Mon ticket</button>
+  <nav>
+    <div class="navbar">
+      <div class="nav-btn active" data-screen="accueil" onclick="goTo('accueil')"><div class="ic">🏠</div><div class="lb">ACCUEIL</div></div>
+      <div class="nav-btn" data-screen="liste" onclick="goTo('liste')"><div class="ic">📝</div><div class="lb">LISTE</div></div>
+      <div class="nav-btn" data-screen="fidelite" onclick="goTo('fidelite')"><div class="ic">💳</div><div class="lb">FIDÉLITÉ</div></div>
+      <div class="nav-btn" data-screen="cashback" onclick="goTo('cashback')"><div class="ic">🧾</div><div class="lb">CASHBACK</div></div>
+      <div class="nav-btn" data-screen="gains" onclick="goTo('gains')"><div class="ic">💰</div><div class="lb">GAINS</div></div>
+    </div>
   </nav>
+</div>
 
-  <dialog id="product-modal"><form method="dialog" id="product-form" class="modal-card"><div class="modal-header"><h2 id="product-modal-title">Ajouter un produit</h2><button class="icon-close" value="cancel" aria-label="Fermer">×</button></div><input type="hidden" id="product-id"><label>Nom du produit<input id="product-name" required placeholder="Ex. Pâtes complètes"></label><div class="two-columns"><label>Prix unitaire (€)<input id="product-price" type="number" min="0" step="0.01" required></label><label>Quantité<input id="product-quantity" type="number" min="1" step="1" required value="1"></label></div><fieldset><legend>Offres simulées</legend><label>Promotion (%)<input id="offer-promo" type="number" min="0" max="100" step="1" value="0"></label><label>Coupon / fidélité (€)<input id="offer-coupon" type="number" min="0" step="0.01" value="0"></label><label>Cashback (€)<input id="offer-cashback" type="number" min="0" step="0.01" value="0"></label><label>Avantage carte cadeau (€)<input id="offer-gift" type="number" min="0" step="0.01" value="0"></label></fieldset><button class="primary wide" value="default">Enregistrer le produit</button></form></dialog>
-  <dialog id="card-modal"><form method="dialog" id="card-form" class="modal-card"><div class="modal-header"><h2>Ajouter une carte</h2><button class="icon-close" value="cancel" aria-label="Fermer">×</button></div><label>Enseigne<input id="card-store" required placeholder="Ex. Carrefour"></label><div class="two-columns"><label>Montant initial (€)<input id="card-amount" type="number" min="0" step="0.01" required></label><label>Solde actuel (€)<input id="card-balance" type="number" min="0" step="0.01" required></label></div><button class="primary wide" value="default">Ajouter la carte</button></form></dialog>
-  <div id="barcode-overlay" class="barcode-overlay hidden"><button id="close-barcode" class="close-barcode" aria-label="Fermer">×</button><p>À présenter en caisse</p><h2 id="barcode-store">Carte cadeau</h2><div class="barcode" aria-label="Code-barres de démonstration"></div><strong id="barcode-balance">0,00 €</strong><small>Code de démonstration — non utilisable</small></div>
-  <div id="toast" class="toast" role="status"></div>
-  <script src="app.js"></script>
+<script>
+const DEFAULT_ITEMS = {
+  before: [
+    { id: 'b1', emoji:'🎟️', label: 'Widilo — carte cadeau cashback', url: 'https://www.widilo.fr' },
+    { id: 'b2', emoji:'🪙', label: 'Joko — activer avant achat', url: 'https://www.joko.com' },
+    { id: 'b3', emoji:'🛍️', label: 'iGraal — activer les offres', url: 'https://www.igraal.com' },
+  ],
+  after: [
+    { id: 'a1', emoji:'🛒', label: 'Carrefour — appli / fidélité', url: 'https://www.carrefour.fr' },
+    { id: 'a2', emoji:'📝', label: 'Mon Avis Compte — produit gratuit', url: 'https://www.monaviscompte.fr' },
+    { id: 'a3', emoji:'🧊', label: 'Lidl Plus — scanner ticket', url: 'https://www.lidl.fr' },
+    { id: 'a4', emoji:'🏪', label: 'E.Leclerc — fidélité', url: 'https://www.leclerc.fr' },
+  ]
+};
+const DEFAULT_STORES = [
+  { id:'s1', enseigne:'Carrefour', ville:'', promoUrl:'https://www.carrefour.fr/promotions' },
+  { id:'s2', enseigne:'E.Leclerc', ville:'', promoUrl:'https://www.leclerc.fr' },
+  { id:'s3', enseigne:'Lidl', ville:'', promoUrl:'https://www.lidl.fr' },
+];
+
+let items = null, checked = {}, gains = [], stores = [], selectedStoreId = null, courseItems = [], loyaltyCards = [], weekKey = '';
+
+function getWeekKey(d){
+  const date = new Date(d);
+  date.setHours(0,0,0,0);
+  date.setDate(date.getDate() + 3 - ((date.getDay()+6)%7));
+  const week1 = new Date(date.getFullYear(),0,4);
+  const weekNo = 1 + Math.round(((date - week1) / 86400000 - 3 + ((week1.getDay()+6)%7)) / 7);
+  return date.getFullYear() + '-S' + String(weekNo).padStart(2,'0');
+}
+function fmtEUR(n){ return n.toLocaleString('fr-FR', { minimumFractionDigits:2, maximumFractionDigits:2 }) + '€'; }
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+async function safeGet(key){ try { return localStorage.getItem('panierMalin:' + key); } catch(e){ return null; } }
+async function safeSet(key, value){ try { localStorage.setItem('panierMalin:' + key, value); } catch(e){} }
+
+async function loadState(){
+  const now = new Date();
+  weekKey = getWeekKey(now);
+  document.getElementById('weekLabel').textContent = weekKey + ' · ' + now.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'});
+  items = JSON.parse((await safeGet('items')) || 'null') || JSON.parse(JSON.stringify(DEFAULT_ITEMS));
+  checked = JSON.parse((await safeGet('checked:' + weekKey)) || '{}');
+  gains = JSON.parse((await safeGet('gains')) || '[]');
+  stores = JSON.parse((await safeGet('stores')) || 'null') || JSON.parse(JSON.stringify(DEFAULT_STORES));
+  courseItems = JSON.parse((await safeGet('courseItems')) || '[]');
+  loyaltyCards = JSON.parse((await safeGet('loyaltyCards')) || '[]');
+  selectedStoreId = (await safeGet('selectedStoreId')) || (stores[0] ? stores[0].id : null);
+  await safeSet('items', JSON.stringify(items));
+  await safeSet('stores', JSON.stringify(stores));
+  renderAll();
+}
+function goTo(screen){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + screen).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.screen === screen));
+}
+function renderAll(){
+  renderChecklist('before', 'listBefore'); renderChecklist('after', 'listAfter');
+  renderProgress(); renderGains(); renderStoreSelect(); renderCourseItems(); renderLoyaltyCards();
+}
+function renderChecklist(section, containerId){
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  items[section].forEach(it => {
+    const isDone = !!checked[it.id];
+    const row = document.createElement('div');
+    row.className = 'step-card' + (isDone ? ' done' : '');
+    row.innerHTML = `<div class="badge">${it.emoji || '•'}</div><div class="step-info"><div class="t">${escapeHtml(it.label)}</div></div><div class="step-actions">${it.url ? `<button class="go-btn" data-url="${it.url}">OUVRIR</button>` : ''}<div class="check-btn" data-toggle="${it.id}">${isDone ? '✓' : ''}</div><div class="del-x" data-del="${section}:${it.id}">×</div></div>`;
+    container.appendChild(row);
+  });
+  container.querySelectorAll('[data-url]').forEach(b => b.onclick = (e) => { e.stopPropagation(); window.open(b.dataset.url, '_blank'); });
+  container.querySelectorAll('[data-toggle]').forEach(b => b.onclick = () => toggleCheck(b.dataset.toggle));
+  container.querySelectorAll('[data-del]').forEach(b => b.onclick = () => { const [s,id]=b.dataset.del.split(':'); removeItem(s,id); });
+}
+function toggleCheck(id){
+  checked[id] = !checked[id];
+  safeSet('checked:' + weekKey, JSON.stringify(checked));
+  renderChecklist('before','listBefore'); renderChecklist('after','listAfter'); renderProgress();
+}
+function addItem(section){
+  const inputId = section === 'before' ? 'newBeforeName' : 'newAfterName';
+  const input = document.getElementById(inputId);
+  const val = input.value.trim();
+  if (!val) return;
+  items[section].push({ id: section[0] + Date.now(), emoji: '➕', label: val, url: null });
+  input.value = '';
+  safeSet('items', JSON.stringify(items));
+  renderChecklist(section, section === 'before' ? 'listBefore' : 'listAfter'); renderProgress();
+}
+function removeItem(section, id){
+  items[section] = items[section].filter(it => it.id !== id);
+  delete checked[id];
+  safeSet('items', JSON.stringify(items)); safeSet('checked:' + weekKey, JSON.stringify(checked));
+  renderChecklist(section, section === 'before' ? 'listBefore' : 'listAfter'); renderProgress();
+}
+function renderProgress(){
+  const total = items.before.length + items.after.length;
+  const done = Object.values(checked).filter(Boolean).length;
+  document.getElementById('progressCount').textContent = done + ' / ' + total;
+  document.getElementById('progressBar').style.width = (total ? (done/total*100) : 0) + '%';
+}
+function renderStoreSelect(){
+  const sel = document.getElementById('storeSelect');
+  sel.innerHTML = '';
+  stores.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s.id; opt.textContent = s.enseigne + (s.ville ? ' — ' + s.ville : '');
+    if (s.id === selectedStoreId) opt.selected = true;
+    sel.appendChild(opt);
+  });
+  renderStoreInfo();
+}
+function renderStoreInfo(){
+  const store = stores.find(s => s.id === selectedStoreId);
+  const block = document.getElementById('storeInfoBlock');
+  if (!store){ block.innerHTML = ''; return; }
+  block.innerHTML = `<div class="store-chip">📍 ${escapeHtml(store.enseigne)}${store.ville ? ' · ' + escapeHtml(store.ville) : ''}</div><br>${store.promoUrl ? `<a class="promo-link" href="${store.promoUrl}" target="_blank">VOIR LES PROMOS</a>` : ''}`;
+}
+function onStoreChange(){
+  selectedStoreId = document.getElementById('storeSelect').value;
+  safeSet('selectedStoreId', selectedStoreId);
+  renderStoreInfo();
+}
+function addStore(){
+  const enseigneEl = document.getElementById('newStoreEnseigne'), villeEl = document.getElementById('newStoreVille');
+  const enseigne = enseigneEl.value.trim(), ville = villeEl.value.trim();
+  if (!enseigne) return;
+  const id = 'store' + Date.now();
+  stores.push({ id, enseigne, ville, promoUrl: null });
+  selectedStoreId = id; enseigneEl.value = ''; villeEl.value = '';
+  safeSet('stores', JSON.stringify(stores)); safeSet('selectedStoreId', selectedStoreId);
+  renderStoreSelect();
+}
+function renderCourseItems(){
+  const container = document.getElementById('listCourses');
+  container.innerHTML = '';
+  if (!courseItems.length){ container.innerHTML = '<div class="empty-note">Ta liste est vide, ajoute un article ci-dessous 👇</div>'; return; }
+  courseItems.forEach(it => {
+    const row = document.createElement('div');
+    row.className = 'step-card' + (it.done ? ' done' : '');
+    row.innerHTML = `<div class="badge">🛒</div><div class="step-info"><div class="t">${escapeHtml(it.label)}</div></div><div class="step-actions"><div class="check-btn" data-ctoggle="${it.id}">${it.done ? '✓' : ''}</div><div class="del-x" data-cdel="${it.id}">×</div></div>`;
+    container.appendChild(row);
+  });
+  container.querySelectorAll('[data-ctoggle]').forEach(b => b.onclick = () => {
+    const item = courseItems.find(i => i.id === b.dataset.ctoggle);
+    if (item) item.done = !item.done;
+    safeSet('courseItems', JSON.stringify(courseItems)); renderCourseItems();
+  });
+  container.querySelectorAll('[data-cdel]').forEach(b => b.onclick = () => {
+    courseItems = courseItems.filter(i => i.id !== b.dataset.cdel);
+    safeSet('courseItems', JSON.stringify(courseItems)); renderCourseItems();
+  });
+}
+function addCourseItem(){
+  const input = document.getElementById('newCourseItem');
+  const val = input.value.trim();
+  if (!val) return;
+  courseItems.push({ id:'c'+Date.now(), label: val, done:false });
+  input.value = '';
+  safeSet('courseItems', JSON.stringify(courseItems)); renderCourseItems();
+}
+function renderLoyaltyCards(){
+  const container = document.getElementById('loyaltyList');
+  container.innerHTML = '';
+  if (!loyaltyCards.length){ container.innerHTML = '<div class="empty-note">Aucune carte enregistrée pour le moment.</div>'; return; }
+  loyaltyCards.forEach(c => {
+    const el = document.createElement('div');
+    el.className = 'loyalty-card';
+    el.innerHTML = `<div class="del-card" data-carddel="${c.id}">×</div><div class="ens">${escapeHtml(c.enseigne)}</div><div class="num">${escapeHtml(c.numero)}</div>${c.ville ? `<div class="ville">${escapeHtml(c.ville)}</div>` : ''}`;
+    container.appendChild(el);
+  });
+  container.querySelectorAll('[data-carddel]').forEach(b => b.onclick = () => {
+    loyaltyCards = loyaltyCards.filter(c => c.id !== b.dataset.carddel);
+    safeSet('loyaltyCards', JSON.stringify(loyaltyCards)); renderLoyaltyCards();
+  });
+}
+function addLoyaltyCard(){
+  const ensEl = document.getElementById('newCardEnseigne'), numEl = document.getElementById('newCardNumero'), villeEl = document.getElementById('newCardVille');
+  const enseigne = ensEl.value.trim(), numero = numEl.value.trim();
+  if (!enseigne || !numero) return;
+  loyaltyCards.push({ id:'card'+Date.now(), enseigne, numero, ville: villeEl.value.trim() });
+  ensEl.value=''; numEl.value=''; villeEl.value='';
+  safeSet('loyaltyCards', JSON.stringify(loyaltyCards)); renderLoyaltyCards();
+}
+function addGain(){
+  const noteEl = document.getElementById('gainNote'), amtEl = document.getElementById('gainAmount');
+  const amount = parseFloat(amtEl.value);
+  if (isNaN(amount) || amount <= 0) return;
+  gains.unshift({ id:'g'+Date.now(), date:new Date().toISOString(), note: noteEl.value.trim() || weekKey, amount });
+  noteEl.value=''; amtEl.value='';
+  safeSet('gains', JSON.stringify(gains)); renderGains();
+}
+function removeGain(id){
+  gains = gains.filter(g => g.id !== id);
+  safeSet('gains', JSON.stringify(gains)); renderGains();
+}
+function renderGains(){
+  const total = gains.reduce((s,g) => s + g.amount, 0);
+  document.getElementById('heroTotal').textContent = fmtEUR(total);
+  document.getElementById('heroCaption').textContent = gains.length ? gains.length + ' entrée' + (gains.length>1?'s':'') + ' enregistrée' + (gains.length>1?'s':'') : "Aucun gain enregistré pour l'instant";
+  document.getElementById('gainsTotal').textContent = fmtEUR(total);
+  document.getElementById('gainsCount').textContent = gains.length + ' semaine' + (gains.length!==1?'s':'') + ' enregistrée' + (gains.length!==1?'s':'');
+  const list = document.getElementById('gainsList');
+  list.innerHTML = '';
+  if (!gains.length){ list.innerHTML = '<div class="empty-note">Ajoute ton premier gain ci-dessus 👆</div>'; return; }
+  const max = Math.max(...gains.map(g => g.amount));
+  gains.forEach(g => {
+    const row = document.createElement('div');
+    row.className = 'history-row';
+    const d = new Date(g.date);
+    row.innerHTML = `<div class="d">${d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})}<br>${escapeHtml(g.note).slice(0,10)}</div><div class="bar-wrap"><div class="bar" style="width:${max ? (g.amount/max*100) : 0}%"></div></div><div class="amt">${fmtEUR(g.amount)}</div><div class="del" data-delgain="${g.id}">×</div>`;
+    list.appendChild(row);
+  });
+  list.querySelectorAll('[data-delgain]').forEach(b => b.onclick = () => removeGain(b.dataset.delgain));
+}
+
+loadState();
+</script>
 </body>
 </html>
