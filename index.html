@@ -963,6 +963,77 @@ function toggleFavoriteMenu(id){if(favoriteMenuIds.includes(id))favoriteMenuIds=
 function renderFavoriteMenus(){let c=document.getElementById('favoriteMenuList');if(!c)return;if(!favoriteMenuIds.length){c.innerHTML='<div class="empty-note">Aucune recette préférée pour le moment. Appuie sur ♡ pour en enregistrer une.</div>';return;}c.innerHTML=favoriteMenuIds.map(function(id){let r=MENU_BOOK.find(function(x){return x.id===id;});return r?'<div class="menu-fav-row"><button type="button" class="menu-fav-open" data-fav-action="open" data-id="'+id+'">'+escapeHtml(r.name)+'</button><button type="button" class="menu-fav-remove" data-fav-action="remove" data-id="'+id+'" aria-label="Retirer des favoris">×</button></div>':'';}).join('');}
 function addRecipeIngredients(id){let r=MENU_BOOK.find(function(x){return x.id===id;});if(!r)return;let servings=getMenuServings();r.ingredients.forEach(function(x,i){courseItems.push({id:'r'+Date.now()+i,label:formatIngredient(x.q,x.u,x.n,servings),done:false});});safeSet('courseItems',JSON.stringify(courseItems));renderCourseItems();closeMenuRecipe();goTo('liste');}
 ensureMenuEnhancements();renderRecipes();renderFavoriteMenus();
+</script><script>
+(function(){
+  if(!document.getElementById('menu-dish-art-style')){
+    var style=document.createElement('style');
+    style.id='menu-dish-art-style';
+    style.textContent='.menu-dish-art{height:144px;margin:10px 0 14px;border-radius:20px;background:radial-gradient(circle at 50% 58%,#fff 0 35%,#f0ddbb 36% 43%,transparent 44%),linear-gradient(135deg,#e4f0e4,#f8e7c7);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.menu-dish-art:before,.menu-dish-art:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.38)}.menu-dish-art:before{width:38px;height:38px;left:12%;top:18%}.menu-dish-art:after{width:24px;height:24px;right:15%;bottom:16%}.menu-dish-plate{width:94px;height:94px;border-radius:50%;background:#fff;box-shadow:0 5px 14px rgba(31,77,58,.16);display:flex;align-items:center;justify-content:center;font-size:46px;z-index:1}.menu-dish-caption{position:absolute;bottom:10px;right:14px;font:800 10px Manrope,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#1f4d3a;opacity:.72}.recipe-card .menu-dish-art{height:112px;margin:0 0 12px}.recipe-card .menu-dish-plate{width:76px;height:76px;font-size:38px}';
+    document.head.appendChild(style);
+  }
+})();
+function menuDishIllustration(recipe){
+  var icons={'pates-tomate':'🍝','omelette':'🍳','curry-pois-chiches':'🍛','quiche':'🥧','gratin-courgettes':'🧀','riz-poulet':'🍗','tarte-tomate':'🍅','salade-lentilles':'🥗','pancakes':'🥞','soupe-carottes':'🥕','pates-champignons':'🍝','poisson-papillote':'🐟'};
+  var icon=icons[recipe.id]||'🍽️';
+  return '<div class="menu-dish-art" role="img" aria-label="Illustration : '+escapeHtml(recipe.name)+'"><div class="menu-dish-plate">'+icon+'</div><span class="menu-dish-caption">fait maison</span></div>';
+}
+function renderRecipes(){
+  var c=document.getElementById('recipeList');if(!c)return;
+  var servings=getMenuServings(),chosen=[];
+  for(var i=0;i<4;i++)chosen.push(MENU_BOOK[(menuOffset+i)%MENU_BOOK.length]);
+  c.innerHTML=chosen.map(function(r){
+    var ing=r.ingredients.map(function(x){return formatIngredient(x.q,x.u,x.n,servings);});
+    var saved=favoriteMenuIds.includes(r.id);
+    return '<article class="recipe-card">'+menuDishIllustration(r)+'<h3><button class="menu-recipe-name" type="button" data-menu-action="open" data-id="'+r.id+'">'+escapeHtml(r.name)+'</button></h3><p class="recipe-note">'+escapeHtml(r.note)+' · pour '+servings+' personne'+(servings>1?'s':'')+'</p><div class="recipe-ingredients">'+ing.map(function(x){return '<span>'+escapeHtml(x)+'</span>';}).join('')+'</div><button type="button" data-menu-action="add" data-id="'+r.id+'">Ajouter les ingrédients à ma liste</button><button class="menu-favorite-btn" type="button" data-menu-action="favorite" data-id="'+r.id+'">'+(saved?'♥ Dans mes recettes préférées':'♡ Ajouter à mes recettes préférées')+'</button></article>';
+  }).join('');
+  var btn=document.getElementById('menuMoreBtn');if(btn)btn.textContent='Voir d’autres menus · série '+(Math.floor(menuOffset/4)+1)+'/'+(MENU_BOOK.length/4);
+}
+function openMenuRecipe(id){
+  var r=MENU_BOOK.find(function(x){return x.id===id;});if(!r)return;
+  var servings=getMenuServings(),steps=r.steps||MENU_METHODS[r.id]||['Prépare les ingrédients puis cuis jusqu’à ce que le plat soit prêt.'];
+  var ingredients=r.ingredients.map(function(x){return '<li>'+escapeHtml(formatIngredient(x.q,x.u,x.n,servings))+'</li>';}).join('');
+  var method=steps.map(function(x){return '<li>'+escapeHtml(x)+'</li>';}).join('');
+  document.getElementById('menuRecipeContent').innerHTML=menuDishIllustration(r)+'<h2>'+escapeHtml(r.name)+'</h2><p class="recipe-note">'+escapeHtml(r.note)+' · pour '+servings+' personne'+(servings>1?'s':'')+'</p><h3>Ingrédients</h3><ul>'+ingredients+'</ul><h3>Préparation</h3><ol>'+method+'</ol><button class="menu-favorite-btn" type="button" data-recipe-action="favorite" data-id="'+r.id+'">'+(favoriteMenuIds.includes(r.id)?'♥ Retirer de mes recettes préférées':'♡ Ajouter à mes recettes préférées')+'</button><button type="button" data-recipe-action="add" data-id="'+r.id+'">Ajouter les ingrédients à ma liste</button>';
+  document.getElementById('menuRecipeModal').classList.add('open');
+}
+function addRecipeIngredients(id){
+  var r=MENU_BOOK.find(function(x){return x.id===id;});if(!r)return;
+  var servings=getMenuServings();
+  r.ingredients.forEach(function(x,i){
+    var key=String(x.n||'').trim().toLocaleLowerCase();
+    courseItems=courseItems.filter(function(item){
+      if(!String(item.id||'').startsWith('r'))return true;
+      var label=String(item.label||'').trim().toLocaleLowerCase();
+      return !label.endsWith(' '+key);
+    });
+    courseItems.push({id:'r'+Date.now()+i,label:formatIngredient(x.q,x.u,x.n,servings),done:false});
+  });
+  safeSet('courseItems',JSON.stringify(courseItems));renderCourseItems();closeMenuRecipe();goTo('liste');
+}
+</script><script>
+(function(){
+  var style=document.createElement('style');
+  style.textContent='.menu-fav-jump{width:100%;border:1px solid var(--green);border-radius:14px;padding:12px;margin:0 0 16px;background:var(--green-soft);color:var(--green);font:800 13px Manrope,sans-serif}.menu-fav-add{border:0;border-radius:10px;padding:9px 11px;background:var(--amber-soft);color:var(--green);font:800 11px Manrope,sans-serif;white-space:nowrap}.menu-fav-row{flex-wrap:wrap}.menu-fav-open{min-width:0}';
+  document.head.appendChild(style);
+  var more=document.getElementById('menuMoreBtn'),list=document.getElementById('favoriteMenuList');
+  if(more&&!document.getElementById('menuFavJumpBtn')){
+    var jump=document.createElement('button');jump.id='menuFavJumpBtn';jump.type='button';jump.className='menu-fav-jump';jump.textContent='♡ Mes recettes préférées';
+    jump.addEventListener('click',function(){var target=document.getElementById('menuFavoritesSection')||document.getElementById('favoriteMenuList');if(target)target.scrollIntoView({behavior:'smooth',block:'start'});});
+    more.insertAdjacentElement('afterend',jump);
+  }
+  if(list){list.parentElement.id='menuFavoritesSection';list.onclick=function(e){var b=e.target.closest('[data-fav-action]');if(!b)return;var id=b.getAttribute('data-id');if(b.dataset.favAction==='open')openMenuRecipe(id);else if(b.dataset.favAction==='add')addRecipeIngredients(id);else toggleFavoriteMenu(id);};}
+})();
+function renderFavoriteMenus(){
+  var c=document.getElementById('favoriteMenuList');if(!c)return;
+  if(!favoriteMenuIds.length){c.innerHTML='<div class="empty-note">Aucune recette préférée pour le moment. Enregistre une recette avec le bouton ♡.</div>';return;}
+  c.innerHTML=favoriteMenuIds.map(function(id){
+    var r=MENU_BOOK.find(function(x){return x.id===id;});
+    return r?'<div class="menu-fav-row"><button type="button" class="menu-fav-open" data-fav-action="open" data-id="'+id+'">'+escapeHtml(r.name)+'</button><button type="button" class="menu-fav-add" data-fav-action="add" data-id="'+id+'">Ajouter les ingrédients</button><button type="button" class="menu-fav-remove" data-fav-action="remove" data-id="'+id+'" aria-label="Retirer des favoris">×</button></div>':'';
+  }).join('');
+}
+renderFavoriteMenus();
 </script>
+
+
 </body>
 
