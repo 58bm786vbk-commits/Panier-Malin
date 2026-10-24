@@ -1057,6 +1057,47 @@ renderFavoriteMenus();
 </script>
 
 
+
+<script>
+(function(){
+  var list=document.getElementById('recipeList');
+  var oldButton=document.getElementById('menuMoreBtn');
+  if(!list||!oldButton)return;
+  var button=oldButton.cloneNode(true);
+  oldButton.replaceWith(button);
+  button.textContent='Voir d’autres menus';
+  button.addEventListener('click',showMoreMenus);
+  list.insertAdjacentElement('afterend',button);
+})();
+function showMoreMenus(){
+  var list=document.getElementById('recipeList');
+  var button=document.getElementById('menuMoreBtn');
+  if(!list||!button||!MENU_BOOK.length)return;
+  var previousIds=Array.from(list.querySelectorAll('[data-menu-action="open"]')).slice(-4).map(function(b){return b.dataset.id;});
+  if(menuOffset+8>MENU_BOOK.length){
+    var attempts=0,overlaps;
+    do{
+      for(var i=MENU_BOOK.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),tmp=MENU_BOOK[i];MENU_BOOK[i]=MENU_BOOK[j];MENU_BOOK[j]=tmp;}
+      overlaps=MENU_BOOK.slice(0,4).some(function(r){return previousIds.includes(r.id);});
+      attempts++;
+    }while(overlaps&&attempts<100);
+    menuOffset=0;
+  }else{menuOffset+=4;}
+  var recipes=MENU_BOOK.slice(menuOffset,menuOffset+4);
+  if(!recipes.length)return;
+  var servings=getMenuServings();
+  var html=recipes.map(function(r){
+    var ingredients=r.ingredients.map(function(x){return formatIngredient(x.q,x.u,x.n,servings);});
+    var saved=favoriteMenuIds.includes(r.id);
+    return '<article class="recipe-card">'+menuDishIllustration(r)+'<h3><button class="menu-recipe-name" type="button" data-menu-action="open" data-id="'+r.id+'">'+escapeHtml(r.name)+'</button></h3><p class="recipe-note">'+escapeHtml(r.note)+' · pour '+servings+' personne'+(servings>1?'s':'')+'</p><div class="recipe-ingredients">'+ingredients.map(function(x){return '<span>'+escapeHtml(x)+'</span>';}).join('')+'</div><button type="button" data-menu-action="add" data-id="'+r.id+'">Ajouter les ingrédients à ma liste</button><button class="menu-favorite-btn" type="button" data-menu-action="favorite" data-id="'+r.id+'">'+(saved?'♥ Dans mes recettes préférées':'♡ Ajouter à mes recettes préférées')+'</button></article>';
+  }).join('');
+  list.insertAdjacentHTML('beforeend',html);
+  displayedMenuIds=displayedMenuIds.concat(recipes.map(function(r){return r.id;}));
+  list.insertAdjacentElement('afterend',button);
+  var cards=list.querySelectorAll('.recipe-card');
+  if(cards.length>4)cards[cards.length-recipes.length].scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
 </body>
 
 <script>
