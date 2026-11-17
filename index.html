@@ -1114,3 +1114,113 @@ renderFavoriteMenus=function(){
 };
 renderFavoriteMenus();
 </script>
+
+
+<script id="menu-variety-fix">
+(function () {
+  var list = document.getElementById('recipeList');
+  var oldButton = document.getElementById('menuMoreBtn');
+  if (!list || !oldButton || !Array.isArray(MENU_BOOK) || !MENU_BOOK.length) return;
+
+  // Élimine les éventuels doublons du catalogue à partir de l'identifiant.
+  var pool = [];
+  var knownIds = new Set();
+  MENU_BOOK.forEach(function (recipe) {
+    if (recipe && recipe.id && !knownIds.has(recipe.id)) {
+      knownIds.add(recipe.id);
+      pool.push(recipe);
+    }
+  });
+  if (!pool.length) return;
+
+  function shuffle(items) {
+    var result = items.slice();
+    for (var i = result.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = result[i];
+      result[i] = result[j];
+      result[j] = temp;
+    }
+    return result;
+  }
+
+  // Reprend les recettes déjà visibles pour éviter de les reproposer tout de suite.
+  var initialIds = Array.from(list.querySelectorAll('[data-menu-action="open"]'))
+    .map(function (button) { return button.dataset.id; })
+    .filter(Boolean);
+
+  if (!initialIds.length) {
+    initialIds = pool.slice(0, Math.min(4, pool.length)).map(function (recipe) { return recipe.id; });
+  }
+
+  displayedMenuIds = initialIds.slice();
+
+  // Sac de tirage : chaque recette sort une fois avant le début d'un nouveau cycle.
+  var cycleSeen = new Set(initialIds);
+  var lastBatchIds = initialIds.slice(-4);
+  var remaining = shuffle(pool.filter(function (recipe) {
+    return !cycleSeen.has(recipe.id);
+  }));
+
+  var button = oldButton.cloneNode(true);
+  oldButton.replaceWith(button);
+  button.textContent = "Voir d’autres menus";
+
+  button.addEventListener('click', function () {
+    var batch = [];
+
+    while (batch.length < 4) {
+      if (!remaining.length) {
+        // Nouveau cycle, sans reprendre immédiatement les quatre derniers plats.
+        cycleSeen = new Set(lastBatchIds);
+        remaining = shuffle(pool.filter(function (recipe) {
+          return !cycleSeen.has(recipe.id);
+        }));
+
+        // Sécurité pour les catalogues qui contiendraient moins de cinq recettes.
+        if (!remaining.length) {
+          cycleSeen = new Set();
+          remaining = shuffle(pool);
+        }
+      }
+
+      var recipe = remaining.shift();
+      if (!recipe || batch.some(function (item) { return item.id === recipe.id; })) continue;
+
+      batch.push(recipe);
+      cycleSeen.add(recipe.id);
+    }
+
+    var servings = getMenuServings();
+    var html = batch.map(function (recipe) {
+      var ingredients = recipe.ingredients.map(function (item) {
+        return formatIngredient(item.q, item.u, item.n, servings);
+      });
+      var saved = favoriteMenuIds.includes(recipe.id);
+
+      return '<article class="recipe-card">' +
+        menuDishIllustration(recipe) +
+        '<h3><button class="menu-recipe-name" type="button" data-menu-action="open" data-id="' + recipe.id + '">' + escapeHtml(recipe.name) + '</button></h3>' +
+        '<p class="recipe-note">' + escapeHtml(recipe.note) + ' · pour ' + servings + ' personne' + (servings > 1 ? 's' : '') + '</p>' +
+        '<div class="recipe-ingredients">' + ingredients.map(function (item) {
+          return '<span>' + escapeHtml(item) + '</span>';
+        }).join('') + '</div>' +
+        '<button type="button" data-menu-action="add" data-id="' + recipe.id + '">Ajouter les ingrédients à ma liste</button>' +
+        '<button class="menu-favorite-btn" type="button" data-menu-action="favorite" data-id="' + recipe.id + '">' +
+          (saved ? '♥ Dans mes recettes préférées' : '♡ Ajouter à mes recettes préférées') +
+        '</button>' +
+      '</article>';
+    }).join('');
+
+    list.insertAdjacentHTML('beforeend', html);
+    var newIds = batch.map(function (recipe) { return recipe.id; });
+    displayedMenuIds = displayedMenuIds.concat(newIds);
+    lastBatchIds = newIds;
+
+    var cards = list.querySelectorAll('.recipe-card');
+    if (cards.length >= batch.length) {
+      cards[cards.length - batch.length].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+})();
+</script>
