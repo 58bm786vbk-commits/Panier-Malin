@@ -538,6 +538,90 @@
     letter-spacing:0.2px;
   }
   .nav-btn.active{ background:var(--green-soft); color:var(--green); }
+
+  /* PANIER MALIN — refonte visuelle premium, sans toucher aux fonctions */
+  :root{
+    --cream:#F6F4EC;
+    --card:#FFFEFA;
+    --green:#174B38;
+    --green-soft:#E3EEE5;
+    --amber:#D9A441;
+    --amber-soft:#F7EEDB;
+    --ink:#202820;
+    --muted:#758176;
+    --rule:rgba(31,65,48,.13);
+    --shadow:0 8px 24px rgba(25,55,39,.07),0 1px 3px rgba(25,55,39,.04);
+  }
+  html{background:#F6F4EC;scroll-behavior:smooth}
+  body{background:linear-gradient(180deg,#F8F7F1 0%,#F1F2E9 100%);color:var(--ink)}
+  .app{max-width:480px;background:transparent;box-shadow:none}
+  header{padding:22px 22px 18px;gap:13px}
+  .app-icon{width:46px;height:46px;border-radius:15px;background:linear-gradient(145deg,#205B42,#123D2D);box-shadow:0 7px 16px rgba(23,75,56,.20);font-size:22px}
+  header .titles h1{font-family:'Fraunces',Georgia,serif;font-size:24px;letter-spacing:-.45px;color:#183E2E}
+  header .titles .sub{font-family:'Manrope',sans-serif;font-size:10px;font-weight:800;letter-spacing:1.15px;color:#899489}
+  main{padding:5px 20px 124px}
+  .sticker{border-radius:23px;padding:23px 22px 21px;background:linear-gradient(135deg,#1C563E 0%,#123D2D 100%);box-shadow:0 14px 28px rgba(23,75,56,.18);margin-bottom:17px}
+  .sticker::after{width:150px;height:150px;top:-48px;right:-38px;background:#D9A441;opacity:.17}
+  .sticker .tag-corner{background:#E6BD69;color:#263729;border-radius:999px;font-family:'Manrope',sans-serif;font-size:9px;letter-spacing:.8px;padding:6px 10px;transform:none}
+  .sticker .label{font-family:'Manrope',sans-serif;font-size:10px;font-weight:800;letter-spacing:1.8px}
+  .sticker .amount{font-family:'Fraunces',Georgia,serif;font-size:44px;letter-spacing:-1px;margin:8px 0 3px}
+  .sticker .caption{font-size:12px;line-height:1.5}
+  .progress-card,.quick-card,.step-card,.store-picker,.new-card-form,.gains-form,.history-row,.recipe-card,.menu-servings{border:1px solid rgba(31,65,48,.07);box-shadow:0 7px 20px rgba(25,55,39,.055);background:rgba(255,254,250,.96)}
+  .progress-card{border-radius:18px;padding:17px;margin-bottom:20px}
+  .progress-card .row-between .t{font-size:13px;font-weight:800}
+  .bar-track{height:9px;background:#E9EAE1;border-radius:99px}
+  .bar-fill{background:linear-gradient(90deg,#D4A044,#E9C77E);border-radius:99px}
+  .section-title{font-family:'Fraunces',Georgia,serif;font-size:19px;font-weight:700;letter-spacing:-.25px;color:#214633;margin:22px 0 12px}
+  .section-title.first{margin-top:3px}
+  .section-sub{font-size:12px;line-height:1.6;color:#788378;margin-bottom:15px}
+  .quick-grid{gap:11px;margin-bottom:10px}
+  .quick-card{min-height:142px;border-radius:19px;padding:16px;background:linear-gradient(145deg,#FFFEFA,#F0F5EE);box-shadow:0 8px 20px rgba(25,55,39,.065)}
+  .quick-card:nth-child(even){background:linear-gradient(145deg,#FFFEFA,#F8F1E3)}
+  .quick-card .emoji{width:46px;height:46px;border-radius:15px;background:#E4EEE4;font-size:23px}
+  .quick-card:nth-child(even) .emoji{background:#F6EBD4}
+  .quick-card .t{font-size:14px;font-weight:800;color:#263E30}
+  .quick-card .d{font-size:11px;line-height:1.45;color:#7D887C}
+  .step-card{border-radius:16px;padding:13px;margin-bottom:9px}
+  .badge{border-radius:12px;background:#E5EFE5;color:#24563C}
+  .go-btn{background:#F7EEDB;color:#805B1C;border-radius:9px;font-family:'Manrope',sans-serif}
+  .check-btn{border-radius:10px}
+  .add-row{gap:8px;margin:8px 0 20px}
+  .add-row input,.store-select,.new-store-form input,.new-card-form input,.gains-form input{background:#FFFEFA;border:1px solid #DCE4D9;border-radius:13px;min-height:45px;padding:11px 13px;font-family:'Manrope',sans-serif}
+  .add-row input:focus,.store-select:focus,.new-store-form input:focus,.new-card-form input:focus,.gains-form input:focus{outline:2px solid rgba(37,100,66,.15);border-color:#39734F}
+  .add-row button,.new-store-form button,.new-card-form button,.gains-form button{background:#1B5039;color:#fff;border:0;border-radius:12px;font-family:'Manrope',sans-serif;font-size:12px;font-weight:800;min-height:44px}
+  .store-picker,.new-card-form,.gains-form{border-radius:18px;padding:16px}
+  .store-picker .t,.new-card-form .t,.gains-form .t{font-size:13px;font-weight:800;color:#294A35}
+  .store-chip{background:#E5EFE5;color:#24563C}
+  .promo-link{background:#F7EEDB;color:#805B1C;border-radius:10px;font-family:'Manrope',sans-serif}
+  .note-box{background:#F7EEDB;color:#70551F;border:1px solid #EEDDB9;border-radius:13px;padding:12px 14px;line-height:1.55}
+  .loyalty-card{border-radius:19px;background:linear-gradient(135deg,#205B42,#123D2D);box-shadow:0 10px 22px rgba(23,75,56,.14)}
+  .loyalty-card .ens{font-family:'Fraunces',Georgia,serif;font-size:18px}
+  .history-row{border-radius:14px;padding:12px}
+  .history-row .bar{background:#D9A441}
+  .menu-servings{border-radius:17px;padding:13px 15px}
+  .menu-servings button{background:#E5EFE5;color:#24563C;border-radius:11px}
+  .recipe-card{border-radius:21px;padding:16px;margin-bottom:15px;overflow:hidden}
+  .recipe-card h3{font-family:'Fraunces',Georgia,serif;font-size:19px;color:#244632;line-height:1.25}
+  .recipe-card .recipe-note{font-size:12px;line-height:1.5}
+  .recipe-ingredients span{background:#E7F0E7;color:#28563C;border-radius:999px;padding:7px 10px}
+  .recipe-card button{background:#1B5039;border-radius:12px;min-height:45px;font-family:'Manrope',sans-serif}
+  nav{padding:0 0 max(13px,env(safe-area-inset-bottom))}
+  .navbar{max-width:440px;margin:0 14px 4px;padding:8px 6px;background:rgba(255,254,250,.96);border:1px solid rgba(31,65,48,.09);border-radius:22px;box-shadow:0 10px 30px rgba(25,55,39,.14);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+  .nav-btn{border-radius:15px;padding:8px 2px 7px;gap:4px;transition:background .18s ease,color .18s ease}
+  .nav-btn .ic{font-size:19px}
+  .nav-btn .lb{font-family:'Manrope',sans-serif;font-size:8px;font-weight:800;letter-spacing:.45px}
+  .nav-btn.active{background:#E5EFE5;color:#1B5039}
+  button,.quick-card{cursor:pointer}
+  button{transition:transform .15s ease,filter .15s ease}
+  button:active,.quick-card:active{transform:scale(.98)}
+  input,select{color:var(--ink)}
+  ::placeholder{color:#A0A99F}
+  @media(min-width:600px){
+    body{padding:22px 0}
+    .app{min-height:calc(100vh - 44px);border-radius:28px;overflow:hidden;background:#F6F4EC;box-shadow:0 18px 60px rgba(23,55,38,.10)}
+    nav{bottom:22px}
+  }
+
 </style>
 </head>
 <body>
